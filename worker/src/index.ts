@@ -9,8 +9,9 @@ type Env = {
   NOTION_TASKS_DATA_SOURCE_ID?: string;
   NOTION_NUTRITION_DATA_SOURCE_ID?: string;
   NOTION_FINANCE_DATA_SOURCE_ID?: string;
-  NOTION_HEALTH_DATA_SOURCE_ID?: string;
-  NOTION_TRAINING_DATA_SOURCE_ID?: string;
+  NOTION_TRAINING_SESSIONS_DATA_SOURCE_ID?: string;
+  NOTION_EXERCISES_DATA_SOURCE_ID?: string;
+  NOTION_CHECKINS_DATA_SOURCE_ID?: string;
   NOTION_GOALS_DATA_SOURCE_ID?: string;
   NOTION_WEBHOOK_VERIFICATION_TOKEN?: string;
   NOTION_VERSION?: string;
@@ -31,7 +32,7 @@ type NotionPage = {
 const API_PREFIX = '/api';
 const CACHE_TTL = 300;
 const WEBHOOK_TOKEN_KEY = 'notion:webhook:verification_token';
-const CACHE_KEYS = ['tasks:v1', 'nutrition:v1', 'dashboard:v1'];
+const CACHE_KEYS = ['tasks:v1', 'nutrition:v1', 'training:v1', 'health:v1', 'dashboard:v1'];
 
 const json = (data: unknown, status = 200) => new Response(JSON.stringify(data), {
   status,
@@ -61,8 +62,16 @@ function selectValue(property: any) {
   return property?.select?.name ?? property?.status?.name ?? null;
 }
 
+function multiSelectValue(property: any) {
+  return Array.isArray(property?.multi_select) ? property.multi_select.map((item: any) => item?.name).filter(Boolean) : [];
+}
+
 function numberValue(property: any) {
   return typeof property?.number === 'number' ? property.number : 0;
+}
+
+function nullableNumberValue(property: any) {
+  return typeof property?.number === 'number' ? property.number : null;
 }
 
 function dateValue(property: any) {
@@ -84,6 +93,17 @@ function nextDate(date: string) {
   const value = new Date(`${date}T00:00:00Z`);
   value.setUTCDate(value.getUTCDate() + 1);
   return value.toISOString().slice(0, 10);
+}
+
+function daysAgo(date: string, days: number) {
+  const value = new Date(`${date}T00:00:00Z`);
+  value.setUTCDate(value.getUTCDate() - days);
+  return value.toISOString().slice(0, 10);
+}
+
+function formatNumber(value: number | null, suffix = '', maximumFractionDigits = 1) {
+  if (value === null || !Number.isFinite(value)) return '—';
+  return `${value.toLocaleString('pt-BR', { maximumFractionDigits })}${suffix}`;
 }
 
 async function queryNotion(env: Env, dataSourceId: string, body: Record<string, unknown> = {}) {
@@ -226,7 +246,112 @@ async function nutritionPayload(env: Env) {
   });
 }
 
-async function genericPayload(env: Env, section: 'finance' | 'health' | 'training' | 'goals') {
+async function trainingPayload(env: Env) {
+  return cached(env, 'training:v1', async () => {
+    const sessionsId = env.NOTION_TRAINING_SESSIONS_DATA_SOURCE_ID;
+    if (!sessionsId) return { configured: false, metrics: [], items: [], message: 'Training sessions data source is not configured' };
+
+    const timeZone = env.TIMEZONE ?? 'Europe/Lisbon';
+    const today = dateInTimeZone(timeZone);
+    const since = daysAgo(today, 6);
+    const pages = await allPages(env, sessionsId, {
+      filter: { property: 'Data', date: { on_or_after: since } },
+      sorts: [{ property: 'Data', direction: 'descending' }]
+    });
+
+    const sessions = pages.map((page) => {
+      const properties = page.properties ?? {};
+      return {
+        id: page.id,
+        title: textValue(properties['Sessão']),
+        date: dateValue(properties['Data']),
+        period: selectValue(properties['Período']),
+        day: selectValue(properties['Dia']),
+        muscleGroups: multiSelectValue(properties['Grupo muscular']),
+        duration: nullableNumberValue(properties['Duração min']),
+        rpe: nullableNumberValue(properties['RPE']),
+        energyBefore: nullableNumberValue(properties['Energia antes']),
+        energyAfter: nullableNumberValue(properties['Energia depois']),
+        sleep: nullableNumberValue(properties['Sono h']),
+        weight: nullableNumberValue(properties['Peso kg']),
+        completed: properties['Concluído']?.checkbox === true,
+        planned: properties['Planejado']?.checkbox === true
+      };
+    });
+
+    let exerciseCount = 0;
+    if (env.NOTION_EXERCISES_DATA_SOURCE_ID) {
+      const exercisePages = await allPages(env, env.NOTION_EXERCISES_DATA_SOURCE_ID);
+      exerciseCount = exercisePages.filter((page) => page.properties?.['Concluído']?.checkbox === true).length;
+    }
+
+    const completed = sessions.filter((session) => session.completed);
+    const duration = completed.reduce((total, session) => total + (session.duration ?? 0), 0);
+    const rpeValues = completed.map((session) => session.rpe).filter((value): value is number => typeof value === 'number');
+    const avgRpe = rpeValues.length ? rpeValues.reduce((a, b) => a + b, 0) / rpeValues.length : null;
+
+    return {
+      configured: true,
+      updatedAt: new Date().toISOString(),
+      range: { start: since, end: today },
+      metrics: [
+        { label: 'Sessões concluídas', value: String(completed.length), detail: 'Últimos 7 dias' },
+        { label: 'Duração', value: `${Math.round(duration)} min`, detail: 'Treinos concluídos' },
+        { label: 'RPE médio', value: formatNumber(avgRpe), detail: 'Treinos com RPE' },
+        { label: 'Exercícios concluídos', value: String(exerciseCount), detail: 'Registro de exercícios' }
+      ],
+      items: sessions.slice(0, 20)
+    };
+  });
+}
+
+async function healthPayload(env: Env) {
+  return cached(env, 'health:v1', async () => {
+    const dataSourceId = env.NOTION_CHECKINS_DATA_SOURCE_ID;
+    if (!dataSourceId) return { configured: false, metrics: [], items: [], message: 'Weekly check in data source is not configured' };
+
+    const pages = await allPages(env, dataSourceId, {
+      sorts: [{ property: 'Início', direction: 'descending' }]
+    });
+
+    const items = pages.map((page) => {
+      const properties = page.properties ?? {};
+      return {
+        id: page.id,
+        title: textValue(properties['Semana']),
+        start: dateValue(properties['Início']),
+        end: dateValue(properties['Fim']),
+        avgWeight: nullableNumberValue(properties['Peso médio kg']),
+        initialWeight: nullableNumberValue(properties['Peso inicial kg']),
+        finalWeight: nullableNumberValue(properties['Peso final kg']),
+        waist: nullableNumberValue(properties['Cintura cm']),
+        chest: nullableNumberValue(properties['Peito cm']),
+        arm: nullableNumberValue(properties['Braço cm']),
+        thigh: nullableNumberValue(properties['Coxa cm']),
+        adherence: nullableNumberValue(properties['Aderência %']),
+        avgSleep: nullableNumberValue(properties['Sono médio h']),
+        avgEnergy: nullableNumberValue(properties['Energia média']),
+        plannedSessions: nullableNumberValue(properties['Sessões planejadas']),
+        completedSessions: nullableNumberValue(properties['Sessões concluídas'])
+      };
+    });
+
+    const latest = items[0] ?? null;
+    return {
+      configured: true,
+      updatedAt: new Date().toISOString(),
+      metrics: [
+        { label: 'Peso médio', value: formatNumber(latest?.avgWeight ?? null, ' kg'), detail: latest?.title || 'Último check in' },
+        { label: 'Cintura', value: formatNumber(latest?.waist ?? null, ' cm'), detail: 'Último check in' },
+        { label: 'Sono médio', value: formatNumber(latest?.avgSleep ?? null, ' h'), detail: 'Último check in' },
+        { label: 'Aderência', value: formatNumber(latest?.adherence ?? null, '%', 0), detail: 'Último check in' }
+      ],
+      items: items.slice(0, 20)
+    };
+  });
+}
+
+async function genericPayload(env: Env, section: 'finance' | 'goals') {
   const key = `NOTION_${section.toUpperCase()}_DATA_SOURCE_ID` as keyof Env;
   const configured = Boolean(env[key]);
   return {
@@ -240,10 +365,15 @@ async function genericPayload(env: Env, section: 'finance' | 'health' | 'trainin
 
 async function dashboardPayload(env: Env) {
   return cached(env, 'dashboard:v1', async () => {
-    const [tasks, nutrition] = await Promise.all([tasksPayload(env), nutritionPayload(env)]);
+    const [tasks, nutrition, training, health] = await Promise.all([
+      tasksPayload(env),
+      nutritionPayload(env),
+      trainingPayload(env),
+      healthPayload(env)
+    ]);
     return {
       updatedAt: new Date().toISOString(),
-      modules: { tasks, nutrition }
+      modules: { tasks, nutrition, training, health }
     };
   }, 180);
 }
@@ -315,9 +445,9 @@ async function route(request: Request, env: Env) {
   if (path === `${API_PREFIX}/healthz`) return json({ ok: true, service: 'wjoao-life-os-api', time: new Date().toISOString() });
   if (path === `${API_PREFIX}/tasks`) return json(await tasksPayload(env));
   if (path === `${API_PREFIX}/nutrition`) return json(await nutritionPayload(env));
+  if (path === `${API_PREFIX}/training`) return json(await trainingPayload(env));
+  if (path === `${API_PREFIX}/health`) return json(await healthPayload(env));
   if (path === `${API_PREFIX}/finance`) return json(await genericPayload(env, 'finance'));
-  if (path === `${API_PREFIX}/health`) return json(await genericPayload(env, 'health'));
-  if (path === `${API_PREFIX}/training`) return json(await genericPayload(env, 'training'));
   if (path === `${API_PREFIX}/goals`) return json(await genericPayload(env, 'goals'));
   if (path === `${API_PREFIX}/dashboard`) return json(await dashboardPayload(env));
   if (path === `${API_PREFIX}/admin/notion-webhook-token`) {
@@ -341,6 +471,8 @@ export default {
     ctx.waitUntil(Promise.allSettled([
       tasksPayload(env),
       nutritionPayload(env),
+      trainingPayload(env),
+      healthPayload(env),
       dashboardPayload(env)
     ]).then(() => undefined));
   }
