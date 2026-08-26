@@ -43,12 +43,12 @@ export const privateModules: LifeModule[] = [
     icon: '♥',
     description: 'Composição corporal, recuperação, sono, energia e aderência semanal.',
     visibility: 'private',
-    source: 'Notion · Check in Semanal',
+    source: 'Notion · Estrutura v2 pendente',
     metrics: [
-      { label: 'Peso médio', value: '—', detail: 'Último check in' },
-      { label: 'Cintura', value: '—', detail: 'Último check in' },
-      { label: 'Sono médio', value: '—', detail: 'Último check in' },
-      { label: 'Aderência', value: '—', detail: 'Último check in' }
+      { label: 'Peso médio', value: '—', detail: 'Nova estrutura' },
+      { label: 'Cintura', value: '—', detail: 'Nova estrutura' },
+      { label: 'Sono médio', value: '—', detail: 'Nova estrutura' },
+      { label: 'Aderência', value: '—', detail: 'Nova estrutura' }
     ]
   },
   {
@@ -57,12 +57,12 @@ export const privateModules: LifeModule[] = [
     icon: '◆',
     description: 'Sessões, duração, intensidade, exercícios e evolução do treinamento.',
     visibility: 'private',
-    source: 'Notion · Sessões de Treino + Registro de Exercícios',
+    source: 'Notion · Estrutura v2 pendente',
     metrics: [
-      { label: 'Sessões concluídas', value: '—', detail: 'Últimos 7 dias' },
-      { label: 'Duração', value: '—', detail: 'Treinos concluídos' },
-      { label: 'RPE médio', value: '—', detail: 'Treinos com RPE' },
-      { label: 'Exercícios concluídos', value: '—', detail: 'Registro de exercícios' }
+      { label: 'Sessões concluídas', value: '—', detail: 'Nova estrutura' },
+      { label: 'Duração', value: '—', detail: 'Nova estrutura' },
+      { label: 'RPE médio', value: '—', detail: 'Nova estrutura' },
+      { label: 'Exercícios concluídos', value: '—', detail: 'Nova estrutura' }
     ]
   },
   {
