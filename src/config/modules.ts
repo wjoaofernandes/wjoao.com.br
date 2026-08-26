@@ -17,10 +17,10 @@ export const privateModules: LifeModule[] = [
     visibility: 'private',
     source: 'Notion · Tarefas e Agenda',
     metrics: [
-      { label: 'Abertas', value: '—', detail: 'Conectará ao Notion' },
-      { label: 'Em andamento', value: '—', detail: 'Conectará ao Notion' },
-      { label: 'Atrasadas', value: '—', detail: 'Calculado pela API' },
-      { label: 'Concluídas no mês', value: '—', detail: 'Calculado pela API' }
+      { label: 'Abertas', value: '—', detail: 'Notion' },
+      { label: 'Em andamento', value: '—', detail: 'Notion' },
+      { label: 'Atrasadas', value: '—', detail: 'Prazo vencido' },
+      { label: 'Concluídas no mês', value: '—', detail: 'Mês atual' }
     ]
   },
   {
@@ -41,42 +41,42 @@ export const privateModules: LifeModule[] = [
     slug: 'health',
     label: 'Saúde',
     icon: '♥',
-    description: 'Indicadores corporais, evolução, hábitos, recuperação e registros de saúde.',
+    description: 'Composição corporal, recuperação, sono, energia e aderência semanal.',
     visibility: 'private',
-    source: 'Notion · Saúde & Fitness',
+    source: 'Notion · Check in Semanal',
     metrics: [
-      { label: 'Peso', value: '—', detail: 'Último registro' },
-      { label: 'Meta', value: '—', detail: 'Meta ativa' },
-      { label: 'Sono', value: '—', detail: 'Média semanal' },
-      { label: 'Consistência', value: '—', detail: '30 dias' }
+      { label: 'Peso médio', value: '—', detail: 'Último check in' },
+      { label: 'Cintura', value: '—', detail: 'Último check in' },
+      { label: 'Sono médio', value: '—', detail: 'Último check in' },
+      { label: 'Aderência', value: '—', detail: 'Último check in' }
     ]
   },
   {
     slug: 'training',
     label: 'Treino',
     icon: '◆',
-    description: 'Sessões, volume, frequência, progressão de carga e recordes pessoais.',
+    description: 'Sessões, duração, intensidade, exercícios e evolução do treinamento.',
     visibility: 'private',
-    source: 'Notion · Saúde & Fitness',
+    source: 'Notion · Sessões de Treino + Registro de Exercícios',
     metrics: [
-      { label: 'Sessões', value: '—', detail: 'Semana atual' },
-      { label: 'Volume', value: '—', detail: 'Semana atual' },
-      { label: 'PRs', value: '—', detail: 'Últimos 30 dias' },
-      { label: 'Aderência', value: '—', detail: 'Plano atual' }
+      { label: 'Sessões concluídas', value: '—', detail: 'Últimos 7 dias' },
+      { label: 'Duração', value: '—', detail: 'Treinos concluídos' },
+      { label: 'RPE médio', value: '—', detail: 'Treinos com RPE' },
+      { label: 'Exercícios concluídos', value: '—', detail: 'Registro de exercícios' }
     ]
   },
   {
     slug: 'nutrition',
     label: 'Nutrição',
     icon: '◉',
-    description: 'Calorias, proteína, refeições, alimentos e padrões nutricionais.',
+    description: 'Calorias, proteína, carboidratos, refeições e registros alimentares.',
     visibility: 'private',
     source: 'Notion · Nutrição',
     metrics: [
       { label: 'Calorias', value: '—', detail: 'Hoje' },
       { label: 'Proteína', value: '—', detail: 'Hoje' },
-      { label: 'Refeições', value: '—', detail: 'Hoje' },
-      { label: 'Aderência', value: '—', detail: '7 dias' }
+      { label: 'Carboidratos', value: '—', detail: 'Hoje' },
+      { label: 'Refeições', value: '—', detail: 'Hoje' }
     ]
   },
   {
