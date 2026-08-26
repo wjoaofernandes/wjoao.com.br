@@ -11,7 +11,7 @@ Private data
 Private values are never committed to GitHub and are never embedded in the static HTML. Browser pages request protected JSON from the Cloudflare Worker under `/api/*`.
 
 Data source
-Notion stores mutable data for tasks, projects, nutrition, finances, training sessions and weekly check ins.
+Notion stores mutable data for tasks, projects, nutrition and finances. Health and Training will receive new v2 data sources rather than restoring the legacy sources from the Notion trash.
 
 Sync
 Notion webhooks invalidate private cache after changes. A scheduled Worker run reconciles important dashboards hourly.
@@ -34,7 +34,7 @@ Finance is mapped to three structured Notion sources created under the existing 
 
 Goals derives from the existing Project Planning data source rather than creating a duplicate goals database.
 
-Training and Health are mapped to the existing Training Sessions, Exercise Log and Weekly Check in data sources. Those three sources currently need to be restored from the Notion trash before production use so their existing history is preserved.
+Health and Training remain visible as product modules, but their legacy Notion data source IDs are intentionally not part of the production configuration. New v2 schemas will be designed later and connected only after validation.
 
 ## Repository structure
 
@@ -82,6 +82,20 @@ Never commit tokens, API keys, Cloudflare credentials or exported private dashbo
 
 Finance remains multi currency by design. EUR, BRL and USD values are kept in separate buckets until an explicit exchange rate layer is introduced. The application does not silently add different currencies together.
 
+## Notion connection policy
+
+Production should use an internal Notion connection named `WJoao Life OS`.
+
+Phase 1 should grant only Read content and content access to the exact pages and databases required by the dashboard. Update content and Insert content should remain disabled until the write workflows in the private UI are implemented and tested.
+
+No user information, comments or workspace wide content access is required for the current dashboard.
+
+## Cloudflare routing
+
+Because GitHub Pages remains the existing origin for `wjoao.com.br`, the API Worker should run on a Worker Route for `wjoao.com.br/api/*` rather than taking over the whole hostname as a Worker Custom Domain.
+
+Cloudflare Access should protect `/app/*` and normal `/api/*` requests. The Notion webhook endpoint must remain reachable by Notion and rely on its independent signature verification policy.
+
 ## Deployment
 
 The GitHub workflow validates both the Astro frontend and the Cloudflare Worker on pull requests. After changes reach `main`, the same workflow publishes the frontend to GitHub Pages.
@@ -97,3 +111,4 @@ Cloudflare Worker deployment will be enabled after the Cloudflare account connec
 5. Webhook signatures are verified before cache invalidation.
 6. Public statistics, when added, must be explicitly sanitized and aggregated.
 7. Multi currency totals are not combined without an explicit exchange rate source.
+8. Legacy Health and Training data source IDs are not part of production configuration.
