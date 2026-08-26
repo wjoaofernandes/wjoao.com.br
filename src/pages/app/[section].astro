@@ -1,6 +1,7 @@
 ---
 import Shell from '../../layouts/Shell.astro';
-import KpiCard from '../../components/KpiCard.astro';
+import LiveMetrics from '../../components/LiveMetrics.astro';
+import LiveRecords from '../../components/LiveRecords.astro';
 import { privateModules, getModule } from '../../config/modules';
 
 export function getStaticPaths() {
@@ -29,24 +30,20 @@ const notesBySection: Record<string, string[]> = {
     <div class="eyebrow">{module.source}</div>
     <h1>{module.label}</h1>
     <p class="lead">{module.description}</p>
-    <div class="grid metrics">
-      {module.metrics.map((metric) => <KpiCard {...metric} />)}
-    </div>
+    <LiveMetrics endpoint={`/api/${module.slug}`} metrics={module.metrics} />
   </section>
 
   <section class="section grid panel-grid">
     <article class="panel">
       <div class="section-head">
-        <div><h2>Evolução</h2><p>Série temporal carregada pela API privada.</p></div>
-        <span class="tag">30 dias</span>
+        <div><h2>Registros recentes</h2><p>Conteúdo consultado somente após autenticação.</p></div>
+        <span class="tag">Live</span>
       </div>
-      <div class="chart-placeholder">
-        <div><strong>Dados protegidos</strong><br />O gráfico será renderizado somente após autenticação e consulta à API.</div>
-      </div>
+      <LiveRecords endpoint={`/api/${module.slug}`} section={module.slug} />
     </article>
 
     <article class="panel">
-      <h2>O que este módulo vai acompanhar</h2>
+      <h2>O que este módulo acompanha</h2>
       <div class="list">
         {(notesBySection[module.slug] ?? []).map((note, index) => (
           <div class="list-row">
@@ -56,6 +53,16 @@ const notesBySection: Record<string, string[]> = {
         ))}
       </div>
       <div class="callout">Fonte atual: {module.source}. Nenhum valor privado é persistido no bundle público.</div>
+    </article>
+  </section>
+
+  <section class="section">
+    <article class="panel">
+      <div class="section-head">
+        <div><h2>Evolução</h2><p>Séries históricas e comparações serão renderizadas a partir da camada de histórico.</p></div>
+        <span class="tag">30 dias</span>
+      </div>
+      <div class="chart-placeholder"><div><strong>Histórico preparado</strong><br />A próxima camada adicionará D1 para snapshots e tendências.</div></div>
     </article>
   </section>
 </Shell>
