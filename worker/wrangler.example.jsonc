@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "wjoao-life-os-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-26",
+  "observability": {
+    "enabled": true
+  },
+  "triggers": {
+    "crons": ["7 * * * *"]
+  },
+  "vars": {
+    "NOTION_VERSION": "2026-03-11",
+    "TIMEZONE": "Europe/Lisbon",
+    "REQUIRE_ACCESS": "true"
+  }
+}
