@@ -8,11 +8,13 @@ type Env = {
   NOTION_ACCESS_TOKEN?: string;
   NOTION_TASKS_DATA_SOURCE_ID?: string;
   NOTION_NUTRITION_DATA_SOURCE_ID?: string;
-  NOTION_FINANCE_DATA_SOURCE_ID?: string;
   NOTION_TRAINING_SESSIONS_DATA_SOURCE_ID?: string;
   NOTION_EXERCISES_DATA_SOURCE_ID?: string;
   NOTION_CHECKINS_DATA_SOURCE_ID?: string;
-  NOTION_GOALS_DATA_SOURCE_ID?: string;
+  NOTION_FINANCE_ACCOUNTS_DATA_SOURCE_ID?: string;
+  NOTION_FINANCE_TRANSACTIONS_DATA_SOURCE_ID?: string;
+  NOTION_ASSETS_DATA_SOURCE_ID?: string;
+  NOTION_PROJECTS_DATA_SOURCE_ID?: string;
   NOTION_WEBHOOK_VERIFICATION_TOKEN?: string;
   NOTION_VERSION?: string;
   TIMEZONE?: string;
@@ -32,7 +34,7 @@ type NotionPage = {
 const API_PREFIX = '/api';
 const CACHE_TTL = 300;
 const WEBHOOK_TOKEN_KEY = 'notion:webhook:verification_token';
-const CACHE_KEYS = ['tasks:v1', 'nutrition:v1', 'training:v1', 'health:v1', 'dashboard:v1'];
+const CACHE_KEYS = ['tasks:v1', 'nutrition:v1', 'training:v1', 'health:v1', 'finance:v1', 'goals:v1', 'dashboard:v1'];
 
 const json = (data: unknown, status = 200) => new Response(JSON.stringify(data), {
   status,
@@ -78,6 +80,10 @@ function dateValue(property: any) {
   return property?.date?.start ?? null;
 }
 
+function relationCount(property: any) {
+  return Array.isArray(property?.relation) ? property.relation.length : 0;
+}
+
 function dateInTimeZone(timeZone: string, date = new Date()) {
   const parts = new Intl.DateTimeFormat('en', {
     timeZone,
@@ -101,9 +107,39 @@ function daysAgo(date: string, days: number) {
   return value.toISOString().slice(0, 10);
 }
 
+function monthRange(date: string) {
+  const start = `${date.slice(0, 7)}-01`;
+  const next = new Date(`${start}T00:00:00Z`);
+  next.setUTCMonth(next.getUTCMonth() + 1);
+  return { start, end: next.toISOString().slice(0, 10) };
+}
+
 function formatNumber(value: number | null, suffix = '', maximumFractionDigits = 1) {
   if (value === null || !Number.isFinite(value)) return '—';
   return `${value.toLocaleString('pt-BR', { maximumFractionDigits })}${suffix}`;
+}
+
+function sumByCurrency<T>(items: T[], currency: (item: T) => string | null, value: (item: T) => number) {
+  const totals: Record<string, number> = {};
+  for (const item of items) {
+    const code = currency(item);
+    if (!code) continue;
+    totals[code] = (totals[code] ?? 0) + value(item);
+  }
+  return totals;
+}
+
+function formatCurrencyBuckets(totals: Record<string, number>) {
+  const preferred = ['EUR', 'BRL', 'USD'];
+  const codes = [...preferred.filter((code) => code in totals), ...Object.keys(totals).filter((code) => !preferred.includes(code)).sort()];
+  if (!codes.length) return '—';
+  return codes.map((code) => {
+    try {
+      return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: code, maximumFractionDigits: 2 }).format(totals[code]);
+    } catch {
+      return `${code} ${totals[code].toLocaleString('pt-BR', { maximumFractionDigits: 2 })}`;
+    }
+  }).join(' · ');
 }
 
 async function queryNotion(env: Env, dataSourceId: string, body: Record<string, unknown> = {}) {
@@ -351,29 +387,161 @@ async function healthPayload(env: Env) {
   });
 }
 
-async function genericPayload(env: Env, section: 'finance' | 'goals') {
-  const key = `NOTION_${section.toUpperCase()}_DATA_SOURCE_ID` as keyof Env;
-  const configured = Boolean(env[key]);
-  return {
-    configured,
-    updatedAt: new Date().toISOString(),
-    metrics: [],
-    items: [],
-    message: configured ? 'Data source mapping is ready for implementation' : `${section} data source is not configured yet`
-  };
+async function financePayload(env: Env) {
+  return cached(env, 'finance:v1', async () => {
+    const accountsId = env.NOTION_FINANCE_ACCOUNTS_DATA_SOURCE_ID;
+    const transactionsId = env.NOTION_FINANCE_TRANSACTIONS_DATA_SOURCE_ID;
+    const assetsId = env.NOTION_ASSETS_DATA_SOURCE_ID;
+    if (!accountsId || !transactionsId || !assetsId) {
+      return { configured: false, metrics: [], items: [], message: 'Finance data sources are not fully configured' };
+    }
+
+    const timeZone = env.TIMEZONE ?? 'Europe/Lisbon';
+    const today = dateInTimeZone(timeZone);
+    const range = monthRange(today);
+    const [accountPages, transactionPages, assetPages] = await Promise.all([
+      allPages(env, accountsId),
+      allPages(env, transactionsId, {
+        filter: {
+          and: [
+            { property: 'Data', date: { on_or_after: range.start } },
+            { property: 'Data', date: { before: range.end } }
+          ]
+        },
+        sorts: [{ property: 'Data', direction: 'descending' }]
+      }),
+      allPages(env, assetsId)
+    ]);
+
+    const accounts = accountPages.map((page) => {
+      const properties = page.properties ?? {};
+      return {
+        id: page.id,
+        title: textValue(properties['Conta']),
+        type: selectValue(properties['Tipo']),
+        institution: textValue(properties['Instituição']),
+        currency: selectValue(properties['Moeda']),
+        balance: numberValue(properties['Saldo atual']),
+        balanceDate: dateValue(properties['Data do saldo']),
+        active: properties['Ativa']?.checkbox === true
+      };
+    });
+
+    const transactions = transactionPages.map((page) => {
+      const properties = page.properties ?? {};
+      return {
+        id: page.id,
+        title: textValue(properties['Movimentação']),
+        date: dateValue(properties['Data']),
+        type: selectValue(properties['Tipo']),
+        category: selectValue(properties['Categoria']),
+        value: numberValue(properties['Valor']),
+        currency: selectValue(properties['Moeda']),
+        status: selectValue(properties['Status']),
+        recurring: properties['Recorrente']?.checkbox === true,
+        origin: selectValue(properties['Origem'])
+      };
+    });
+
+    const assets = assetPages.map((page) => {
+      const properties = page.properties ?? {};
+      return {
+        id: page.id,
+        title: textValue(properties['Ativo']),
+        category: selectValue(properties['Categoria']),
+        currentValue: numberValue(properties['Valor atual']),
+        debt: numberValue(properties['Dívida associada']),
+        currency: selectValue(properties['Moeda']),
+        valuationDate: dateValue(properties['Data da avaliação']),
+        liquidity: selectValue(properties['Liquidez']),
+        active: properties['Ativo atualmente']?.checkbox === true
+      };
+    });
+
+    const effective = transactions.filter((item) => item.status === 'Efetivada');
+    const revenue = effective.filter((item) => item.type === 'Receita');
+    const expenses = effective.filter((item) => item.type === 'Despesa' || item.type === 'Imposto');
+    const invested = effective.filter((item) => item.type === 'Investimento');
+    const activeAssets = assets.filter((item) => item.active);
+    const activeAccounts = accounts.filter((item) => item.active);
+
+    const accountTotals = sumByCurrency(activeAccounts, (item) => item.currency, (item) => item.balance);
+    const assetTotals = sumByCurrency(activeAssets, (item) => item.currency, (item) => item.currentValue - item.debt);
+    const revenueTotals = sumByCurrency(revenue, (item) => item.currency, (item) => item.value);
+    const expenseTotals = sumByCurrency(expenses, (item) => item.currency, (item) => item.value);
+    const investedTotals = sumByCurrency(invested, (item) => item.currency, (item) => item.value);
+
+    return {
+      configured: true,
+      updatedAt: new Date().toISOString(),
+      month: range.start.slice(0, 7),
+      metrics: [
+        { label: 'Patrimônio registrado', value: formatCurrencyBuckets(assetTotals), detail: `${activeAssets.length} ativos` },
+        { label: 'Receitas', value: formatCurrencyBuckets(revenueTotals), detail: 'Mês atual' },
+        { label: 'Despesas', value: formatCurrencyBuckets(expenseTotals), detail: 'Mês atual' },
+        { label: 'Investido', value: formatCurrencyBuckets(investedTotals), detail: 'Mês atual' }
+      ],
+      accountTotals,
+      assetTotals,
+      accounts: activeAccounts,
+      assets: activeAssets,
+      items: transactions.slice(0, 20)
+    };
+  });
+}
+
+async function goalsPayload(env: Env) {
+  return cached(env, 'goals:v1', async () => {
+    const dataSourceId = env.NOTION_PROJECTS_DATA_SOURCE_ID;
+    if (!dataSourceId) return { configured: false, metrics: [], items: [], message: 'Projects data source is not configured' };
+
+    const pages = await allPages(env, dataSourceId, {
+      sorts: [{ property: 'Prazo', direction: 'ascending' }]
+    });
+
+    const items = pages.map((page) => {
+      const properties = page.properties ?? {};
+      return {
+        id: page.id,
+        title: textValue(properties['Projeto']),
+        status: selectValue(properties['Status']),
+        due: dateValue(properties['Prazo']),
+        taskCount: relationCount(properties['Tarefas'])
+      };
+    });
+
+    const active = items.filter((item) => item.status !== 'Concluído');
+    const doing = items.filter((item) => item.status === 'Em andamento');
+    const withDeadline = active.filter((item) => Boolean(item.due));
+    const completed = items.filter((item) => item.status === 'Concluído');
+
+    return {
+      configured: true,
+      updatedAt: new Date().toISOString(),
+      metrics: [
+        { label: 'Projetos ativos', value: String(active.length), detail: 'Não concluídos' },
+        { label: 'Em andamento', value: String(doing.length), detail: 'Status atual' },
+        { label: 'Com prazo', value: String(withDeadline.length), detail: 'Projetos ativos' },
+        { label: 'Concluídos', value: String(completed.length), detail: 'Total registrado' }
+      ],
+      items: items.slice(0, 30)
+    };
+  });
 }
 
 async function dashboardPayload(env: Env) {
   return cached(env, 'dashboard:v1', async () => {
-    const [tasks, nutrition, training, health] = await Promise.all([
+    const [tasks, nutrition, training, health, finance, goals] = await Promise.all([
       tasksPayload(env),
       nutritionPayload(env),
       trainingPayload(env),
-      healthPayload(env)
+      healthPayload(env),
+      financePayload(env),
+      goalsPayload(env)
     ]);
     return {
       updatedAt: new Date().toISOString(),
-      modules: { tasks, nutrition, training, health }
+      modules: { tasks, nutrition, training, health, finance, goals }
     };
   }, 180);
 }
@@ -447,8 +615,8 @@ async function route(request: Request, env: Env) {
   if (path === `${API_PREFIX}/nutrition`) return json(await nutritionPayload(env));
   if (path === `${API_PREFIX}/training`) return json(await trainingPayload(env));
   if (path === `${API_PREFIX}/health`) return json(await healthPayload(env));
-  if (path === `${API_PREFIX}/finance`) return json(await genericPayload(env, 'finance'));
-  if (path === `${API_PREFIX}/goals`) return json(await genericPayload(env, 'goals'));
+  if (path === `${API_PREFIX}/finance`) return json(await financePayload(env));
+  if (path === `${API_PREFIX}/goals`) return json(await goalsPayload(env));
   if (path === `${API_PREFIX}/dashboard`) return json(await dashboardPayload(env));
   if (path === `${API_PREFIX}/admin/notion-webhook-token`) {
     const token = await webhookToken(env);
@@ -473,6 +641,8 @@ export default {
       nutritionPayload(env),
       trainingPayload(env),
       healthPayload(env),
+      financePayload(env),
+      goalsPayload(env),
       dashboardPayload(env)
     ]).then(() => undefined));
   }

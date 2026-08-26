@@ -27,13 +27,13 @@ export const privateModules: LifeModule[] = [
     slug: 'finance',
     label: 'Finanças',
     icon: '€',
-    description: 'Fluxo financeiro, patrimônio, contas, investimentos e visão consolidada.',
+    description: 'Fluxo financeiro, patrimônio, contas, investimentos e visão consolidada por moeda.',
     visibility: 'private',
-    source: 'Notion · Finanças & Patrimônio',
+    source: 'Notion · Contas + Movimentações + Patrimônio',
     metrics: [
-      { label: 'Patrimônio', value: '—', detail: 'Fonte financeira a mapear' },
-      { label: 'Entradas', value: '—', detail: 'Mês atual' },
-      { label: 'Saídas', value: '—', detail: 'Mês atual' },
+      { label: 'Patrimônio registrado', value: '—', detail: 'Ativos atuais' },
+      { label: 'Receitas', value: '—', detail: 'Mês atual' },
+      { label: 'Despesas', value: '—', detail: 'Mês atual' },
       { label: 'Investido', value: '—', detail: 'Mês atual' }
     ]
   },
@@ -83,14 +83,14 @@ export const privateModules: LifeModule[] = [
     slug: 'goals',
     label: 'Metas',
     icon: '◎',
-    description: 'Metas anuais, objetivos de vida e progresso consolidado por área.',
+    description: 'Projetos pessoais, objetivos de vida, prazos e andamento consolidado.',
     visibility: 'private',
-    source: 'Notion · Áreas da Vida',
+    source: 'Notion · Planejamento de projetos',
     metrics: [
-      { label: 'Ativas', value: '—', detail: 'Metas atuais' },
-      { label: 'No prazo', value: '—', detail: 'Situação atual' },
-      { label: 'Concluídas', value: '—', detail: 'Ano atual' },
-      { label: 'Progresso', value: '—', detail: 'Média geral' }
+      { label: 'Projetos ativos', value: '—', detail: 'Não concluídos' },
+      { label: 'Em andamento', value: '—', detail: 'Status atual' },
+      { label: 'Com prazo', value: '—', detail: 'Projetos ativos' },
+      { label: 'Concluídos', value: '—', detail: 'Total registrado' }
     ]
   }
 ];

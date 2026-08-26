@@ -26,11 +26,13 @@ const { endpoint, section } = Astro.props;
     return wrapper;
   };
 
+  const compact = (parts: Array<string | null | undefined>) => parts.filter(Boolean).join(' · ');
+
   const describe = (section: string, item: any) => {
     if (section === 'tasks') {
       return {
         title: item.title || 'Tarefa sem título',
-        subtitle: [item.priority, item.due ? `Prazo ${item.due}` : null].filter(Boolean).join(' · ') || 'Sem prazo',
+        subtitle: compact([item.priority, item.due ? `Prazo ${item.due}` : null]) || 'Sem prazo',
         badge: item.status || 'Sem status'
       };
     }
@@ -39,6 +41,42 @@ const { endpoint, section } = Astro.props;
         title: item.record || item.meal || 'Registro nutricional',
         subtitle: `${Math.round(Number(item.calories) || 0)} kcal · ${Math.round(Number(item.protein) || 0)} g proteína`,
         badge: item.meal || 'Refeição'
+      };
+    }
+    if (section === 'training') {
+      return {
+        title: item.title || 'Sessão de treino',
+        subtitle: compact([item.date, item.period, Array.isArray(item.muscleGroups) ? item.muscleGroups.join(', ') : null]) || 'Sessão planejada',
+        badge: item.completed ? 'Concluído' : 'Planejado'
+      };
+    }
+    if (section === 'health') {
+      return {
+        title: item.title || 'Check in semanal',
+        subtitle: compact([
+          item.start,
+          typeof item.avgWeight === 'number' ? `${item.avgWeight.toLocaleString('pt-BR', { maximumFractionDigits: 1 })} kg` : null,
+          typeof item.waist === 'number' ? `${item.waist.toLocaleString('pt-BR', { maximumFractionDigits: 1 })} cm cintura` : null
+        ]) || 'Registro semanal',
+        badge: typeof item.adherence === 'number' ? `${Math.round(item.adherence)}%` : 'Check in'
+      };
+    }
+    if (section === 'finance') {
+      return {
+        title: item.title || 'Movimentação financeira',
+        subtitle: compact([
+          item.date,
+          item.category,
+          item.currency && typeof item.value === 'number' ? `${item.currency} ${item.value.toLocaleString('pt-BR', { maximumFractionDigits: 2 })}` : null
+        ]) || 'Movimentação',
+        badge: item.status || item.type || 'Financeiro'
+      };
+    }
+    if (section === 'goals') {
+      return {
+        title: item.title || 'Projeto',
+        subtitle: compact([item.due ? `Prazo ${item.due}` : null, typeof item.taskCount === 'number' ? `${item.taskCount} tarefas` : null]) || 'Sem prazo',
+        badge: item.status || 'Não iniciada'
       };
     }
     return {

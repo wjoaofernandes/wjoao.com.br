@@ -11,7 +11,7 @@ Private data
 Private values are never committed to GitHub and are never embedded in the static HTML. Browser pages request protected JSON from the Cloudflare Worker under `/api/*`.
 
 Data source
-Notion stores mutable data such as tasks, nutrition, training sessions and weekly check ins.
+Notion stores mutable data for tasks, projects, nutrition, finances, training sessions and weekly check ins.
 
 Sync
 Notion webhooks invalidate private cache after changes. A scheduled Worker run reconciles important dashboards hourly.
@@ -30,11 +30,11 @@ Cloudflare Access protects the private application and API. The Notion API token
 
 Tasks and Nutrition are mapped to active Notion data sources.
 
-Training and Health are mapped to existing Notion data sources that currently need to be restored from the Notion trash before production use.
+Finance is mapped to three structured Notion sources created under the existing Finance and Assets hub: Financial Accounts, Financial Transactions and Assets. No financial values are seeded by the application.
 
-Finance currently has a Notion hub but no structured ledger data source discovered during the initial inventory.
+Goals derives from the existing Project Planning data source rather than creating a duplicate goals database.
 
-Goals currently derive from the existing life areas, projects and tasks structure rather than a duplicate goals database.
+Training and Health are mapped to the existing Training Sessions, Exercise Log and Weekly Check in data sources. Those three sources currently need to be restored from the Notion trash before production use so their existing history is preserved.
 
 ## Repository structure
 
@@ -70,9 +70,9 @@ Required production secret:
 NOTION_ACCESS_TOKEN
 ```
 
-Cloudflare Access should be configured before exposing normal `/api/*` routes.
+Cloudflare Access must protect the private application and normal `/api/*` routes before private data is enabled in production.
 
-The Notion webhook route is intentionally handled before the application authentication check because Notion must be able to reach it. It must still be protected by Notion webhook signature validation.
+The Notion webhook route is intentionally handled before the application authentication check because Notion must be able to reach it. It is separately protected by Notion webhook signature validation.
 
 ## Data source mapping
 
@@ -80,11 +80,13 @@ The non secret Notion data source IDs are documented in `worker/wrangler.example
 
 Never commit tokens, API keys, Cloudflare credentials or exported private dashboard data.
 
+Finance remains multi currency by design. EUR, BRL and USD values are kept in separate buckets until an explicit exchange rate layer is introduced. The application does not silently add different currencies together.
+
 ## Deployment
 
-The GitHub workflow validates pull requests and deploys the Astro build to GitHub Pages after changes reach `main`.
+The GitHub workflow validates both the Astro frontend and the Cloudflare Worker on pull requests. After changes reach `main`, the same workflow publishes the frontend to GitHub Pages.
 
-Cloudflare Worker deployment will be enabled after the Cloudflare account connection, KV namespace and route are configured.
+Cloudflare Worker deployment will be enabled after the Cloudflare account connection, KV namespace, Access application and route are configured.
 
 ## Security invariants
 
@@ -94,3 +96,4 @@ Cloudflare Worker deployment will be enabled after the Cloudflare account connec
 4. Private API responses use `Cache-Control: private, no-store` at the browser edge.
 5. Webhook signatures are verified before cache invalidation.
 6. Public statistics, when added, must be explicitly sanitized and aggregated.
+7. Multi currency totals are not combined without an explicit exchange rate source.
