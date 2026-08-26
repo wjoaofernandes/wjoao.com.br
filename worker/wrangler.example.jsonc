@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "wjoao-life-os-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-26",
+  "observability": {
+    "enabled": true
+  },
+  "triggers": {
+    "crons": ["7 * * * *"]
+  },
+  "vars": {
+    "NOTION_VERSION": "2026-03-11",
+    "TIMEZONE": "Europe/Lisbon",
+    "REQUIRE_ACCESS": "true",
+    "NOTION_TASKS_DATA_SOURCE_ID": "e94ca556-698d-4550-93f8-7c483f7aef5d",
+    "NOTION_NUTRITION_DATA_SOURCE_ID": "37e9e302-373a-4ca0-af8e-752e38159a0f",
+    "NOTION_TRAINING_SESSIONS_DATA_SOURCE_ID": "80894410-2549-4b46-a55d-bcf2a04fcef3",
+    "NOTION_EXERCISES_DATA_SOURCE_ID": "e7b3f227-65ea-428e-b01f-1900366546d3",
+    "NOTION_CHECKINS_DATA_SOURCE_ID": "e1e09609-0c9b-484e-93a4-e66418007b03"
+  }
+}

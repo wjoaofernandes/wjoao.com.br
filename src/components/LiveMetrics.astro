@@ -1,0 +1,47 @@
+---
+type Metric = { label: string; value: string; detail?: string };
+interface Props {
+  endpoint: string;
+  metrics: Metric[];
+}
+const { endpoint, metrics } = Astro.props;
+---
+
+<div class="grid metrics" data-live-metrics data-endpoint={endpoint}>
+  {metrics.map((metric, index) => (
+    <article class="metric-card" data-metric-card data-index={index}>
+      <div class="metric-label" data-metric-label>{metric.label}</div>
+      <div class="metric-value" data-metric-value>{metric.value}</div>
+      <div class="metric-detail" data-metric-detail>{metric.detail ?? ''}</div>
+    </article>
+  ))}
+</div>
+
+<script>
+  const hydrateMetrics = async (container: HTMLElement) => {
+    const endpoint = container.dataset.endpoint;
+    if (!endpoint) return;
+    try {
+      const response = await fetch(endpoint, { credentials: 'same-origin', headers: { accept: 'application/json' } });
+      if (!response.ok) throw new Error(`API ${response.status}`);
+      const payload = await response.json();
+      const metrics = Array.isArray(payload.metrics) ? payload.metrics : [];
+      metrics.forEach((metric: any, index: number) => {
+        const card = container.querySelector(`[data-metric-card][data-index="${index}"]`);
+        if (!card) return;
+        const label = card.querySelector('[data-metric-label]');
+        const value = card.querySelector('[data-metric-value]');
+        const detail = card.querySelector('[data-metric-detail]');
+        if (label) label.textContent = String(metric.label ?? '');
+        if (value) value.textContent = String(metric.value ?? '—');
+        if (detail) detail.textContent = String(metric.detail ?? '');
+      });
+      container.setAttribute('data-state', payload.configured === false ? 'unconfigured' : 'ready');
+    } catch (error) {
+      container.setAttribute('data-state', 'offline');
+      console.warn('Life OS API unavailable', error);
+    }
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-live-metrics]').forEach((container) => void hydrateMetrics(container));
+</script>

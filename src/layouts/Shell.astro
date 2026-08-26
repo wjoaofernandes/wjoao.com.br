@@ -1,0 +1,91 @@
+---
+import '../styles/global.css';
+import { privateModules, publicModules } from '../config/modules';
+
+interface Props {
+  title: string;
+  description?: string;
+  eyebrow?: string;
+  privateArea?: boolean;
+}
+
+const {
+  title,
+  description = 'Painel pessoal de João Fernandes',
+  eyebrow = 'WJoao Life OS',
+  privateArea = false
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+const isActive = (path: string) => path === '/' ? pathname === '/' : pathname.startsWith(path);
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#08111f" />
+    <title>{title} · WJoao</title>
+  </head>
+  <body>
+    <div class="mobile-nav">
+      <a class="brand" href="/" style="margin:0">
+        <span class="brand-mark">WJ</span>
+        <span class="brand-copy"><strong>Life OS</strong><span>wjoao.com.br</span></span>
+      </a>
+      {privateArea && <span class="tag">Privado</span>}
+    </div>
+
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="brand" href="/">
+          <span class="brand-mark">WJ</span>
+          <span class="brand-copy"><strong>João · Life OS</strong><span>Personal intelligence hub</span></span>
+        </a>
+
+        <div class="nav-label">Público</div>
+        <nav>
+          {publicModules.map((item) => (
+            <a class:list={['nav-link', { active: isActive(item.slug) }]} href={item.slug}>
+              <span class="icon">{item.icon}</span>
+              <span>{item.label}</span>
+            </a>
+          ))}
+        </nav>
+
+        <div class="nav-label">Painel privado</div>
+        <nav>
+          <a class:list={['nav-link', { active: pathname === '/app' || pathname === '/app/' }]} href="/app">
+            <span class="icon">▦</span>
+            <span>Overview</span>
+          </a>
+          {privateModules.map((module) => (
+            <a class:list={['nav-link', { active: isActive(`/app/${module.slug}`) }]} href={`/app/${module.slug}`}>
+              <span class="icon">{module.icon}</span>
+              <span>{module.label}</span>
+            </a>
+          ))}
+        </nav>
+
+        <div class="callout">
+          Área privada preparada para autenticação Cloudflare Access. Nenhum dado privado fica salvo no frontend.
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <div>
+            <div class="eyebrow">{eyebrow}</div>
+          </div>
+          <span class="status-pill">
+            <span class="status-dot"></span>
+            {privateArea ? 'Private workspace' : 'Public site'}
+          </span>
+        </div>
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>

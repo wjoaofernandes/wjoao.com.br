@@ -1,0 +1,31 @@
+---
+import Shell from '../layouts/Shell.astro';
+---
+
+<Shell title="Início" description="Site pessoal e painéis de vida de João Fernandes">
+  <section class="hero">
+    <div class="eyebrow">Personal Life OS</div>
+    <h1>Uma visão organizada da minha vida.</h1>
+    <p class="lead">
+      Este espaço reúne projetos, evolução, objetivos e indicadores pessoais em uma interface simples. A área pública mostra apenas informações escolhidas para compartilhamento. Os painéis detalhados ficam em uma área privada protegida.
+    </p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+      <a class="status-pill" href="/projects">Ver projetos</a>
+      <a class="status-pill" href="/app">Abrir meu painel</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Áreas acompanhadas</h2>
+        <p>Dados organizados por contexto, com privacidade desde a origem.</p>
+      </div>
+    </div>
+    <div class="grid module-grid">
+      <article class="module-card"><div class="module-icon">✓</div><h2>Produtividade</h2><p>Tarefas, projetos, prioridades e execução ao longo do tempo.</p><span class="tag">Privado</span></article>
+      <article class="module-card"><div class="module-icon">€</div><h2>Finanças</h2><p>Patrimônio, fluxo financeiro, metas e investimentos.</p><span class="tag">Privado</span></article>
+      <article class="module-card"><div class="module-icon">♥</div><h2>Saúde & Fitness</h2><p>Treino, nutrição, indicadores corporais e evolução.</p><span class="tag">Privado</span></article>
+    </div>
+  </section>
+</Shell>

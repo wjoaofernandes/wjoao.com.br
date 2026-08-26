@@ -1,0 +1,68 @@
+---
+import Shell from '../../layouts/Shell.astro';
+import LiveMetrics from '../../components/LiveMetrics.astro';
+import LiveRecords from '../../components/LiveRecords.astro';
+import { privateModules, getModule } from '../../config/modules';
+
+export function getStaticPaths() {
+  return privateModules.map((module) => ({ params: { section: module.slug } }));
+}
+
+const section = Astro.params.section ?? '';
+const module = getModule(section);
+
+if (!module) {
+  return Astro.redirect('/app');
+}
+
+const notesBySection: Record<string, string[]> = {
+  tasks: ['Status e prioridades', 'Prazos e agenda planejada', 'Adiamentos e histórico de execução'],
+  finance: ['Fluxo de caixa', 'Patrimônio e contas', 'Investimentos e metas financeiras'],
+  health: ['Indicadores corporais', 'Evolução e hábitos', 'Recuperação e tendências'],
+  training: ['Sessões e volume', 'Progressão de carga', 'Recordes e aderência'],
+  nutrition: ['Calorias e macros', 'Refeições e alimentos', 'Padrões e aderência'],
+  goals: ['Metas ativas', 'Progresso por área', 'Marcos e conclusão']
+};
+---
+
+<Shell title={module.label} eyebrow="Painel privado" privateArea={true}>
+  <section class="hero">
+    <div class="eyebrow">{module.source}</div>
+    <h1>{module.label}</h1>
+    <p class="lead">{module.description}</p>
+    <LiveMetrics endpoint={`/api/${module.slug}`} metrics={module.metrics} />
+  </section>
+
+  <section class="section grid panel-grid">
+    <article class="panel">
+      <div class="section-head">
+        <div><h2>Registros recentes</h2><p>Conteúdo consultado somente após autenticação.</p></div>
+        <span class="tag">Live</span>
+      </div>
+      <LiveRecords endpoint={`/api/${module.slug}`} section={module.slug} />
+    </article>
+
+    <article class="panel">
+      <h2>O que este módulo acompanha</h2>
+      <div class="list">
+        {(notesBySection[module.slug] ?? []).map((note, index) => (
+          <div class="list-row">
+            <div>{note}<small>Indicador {index + 1}</small></div>
+            <span class="tag">API</span>
+          </div>
+        ))}
+      </div>
+      <div class="callout">Fonte atual: {module.source}. Nenhum valor privado é persistido no bundle público.</div>
+    </article>
+  </section>
+
+  <section class="section">
+    <article class="panel">
+      <div class="section-head">
+        <div><h2>Evolução</h2><p>Séries históricas e comparações serão renderizadas a partir da camada de histórico.</p></div>
+        <span class="tag">30 dias</span>
+      </div>
+      <div class="chart-placeholder"><div><strong>Histórico preparado</strong><br />A próxima camada adicionará D1 para snapshots e tendências.</div></div>
+    </article>
+  </section>
+</Shell>
