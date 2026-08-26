@@ -1,0 +1,52 @@
+---
+import Shell from '../../layouts/Shell.astro';
+import KpiCard from '../../components/KpiCard.astro';
+import { privateModules } from '../../config/modules';
+---
+
+<Shell title="Dashboard" eyebrow="Painel privado" privateArea={true}>
+  <section class="hero">
+    <div class="eyebrow">Overview</div>
+    <h1>Meu painel de vida.</h1>
+    <p class="lead">
+      Visão consolidada de produtividade, finanças, saúde, treino, nutrição e metas. Os valores reais serão carregados pela API privada depois da autenticação.
+    </p>
+    <div class="grid metrics">
+      <KpiCard label="Tarefas hoje" value="—" detail="Notion" />
+      <KpiCard label="Patrimônio" value="—" detail="Financeiro" />
+      <KpiCard label="Treinos na semana" value="—" detail="Saúde & Fitness" />
+      <KpiCard label="Metas no prazo" value="—" detail="Áreas da Vida" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><h2>Módulos</h2><p>Cada área será atualizada sem expor dados no repositório.</p></div>
+    </div>
+    <div class="grid module-grid">
+      {privateModules.map((module) => (
+        <a class="module-card" href={`/app/${module.slug}`}>
+          <div class="module-icon">{module.icon}</div>
+          <h2>{module.label}</h2>
+          <p>{module.description}</p>
+          <span class="tag">{module.source}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section grid panel-grid">
+    <article class="panel">
+      <h2>Tendências</h2>
+      <div class="chart-placeholder">A API privada fornecerá as séries históricas para os gráficos.</div>
+    </article>
+    <article class="panel">
+      <h2>Atualização dos dados</h2>
+      <div class="list">
+        <div class="list-row"><div>Webhook do Notion<small>Atualização orientada a eventos</small></div><span class="tag">Planejado</span></div>
+        <div class="list-row"><div>Cache privado<small>Resposta rápida no painel</small></div><span class="tag">Planejado</span></div>
+        <div class="list-row"><div>Sincronização completa<small>Reconciliação periódica</small></div><span class="tag">Planejado</span></div>
+      </div>
+    </article>
+  </section>
+</Shell>
