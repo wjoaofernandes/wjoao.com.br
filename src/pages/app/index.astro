@@ -1,7 +1,10 @@
 ---
 import Shell from '../../layouts/Shell.astro';
-import KpiCard from '../../components/KpiCard.astro';
-import { privateModules } from '../../config/modules';
+import LiveMetrics from '../../components/LiveMetrics.astro';
+import { privateModules, getModule } from '../../config/modules';
+
+const tasks = getModule('tasks')!;
+const nutrition = getModule('nutrition')!;
 ---
 
 <Shell title="Dashboard" eyebrow="Painel privado" privateArea={true}>
@@ -9,19 +12,29 @@ import { privateModules } from '../../config/modules';
     <div class="eyebrow">Overview</div>
     <h1>Meu painel de vida.</h1>
     <p class="lead">
-      Visão consolidada de produtividade, finanças, saúde, treino, nutrição e metas. Os valores reais serão carregados pela API privada depois da autenticação.
+      Visão consolidada de produtividade, finanças, saúde, treino, nutrição e metas. Os valores privados são buscados pela API somente depois da autenticação.
     </p>
-    <div class="grid metrics">
-      <KpiCard label="Tarefas hoje" value="—" detail="Notion" />
-      <KpiCard label="Patrimônio" value="—" detail="Financeiro" />
-      <KpiCard label="Treinos na semana" value="—" detail="Saúde & Fitness" />
-      <KpiCard label="Metas no prazo" value="—" detail="Áreas da Vida" />
-    </div>
   </section>
 
   <section class="section">
     <div class="section-head">
-      <div><h2>Módulos</h2><p>Cada área será atualizada sem expor dados no repositório.</p></div>
+      <div><h2>Produtividade</h2><p>Indicadores da base Tarefas e Agenda.</p></div>
+      <span class="tag">Live API</span>
+    </div>
+    <LiveMetrics endpoint="/api/tasks" metrics={tasks.metrics} />
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><h2>Nutrição de hoje</h2><p>Totais calculados a partir dos registros do dia.</p></div>
+      <span class="tag">Live API</span>
+    </div>
+    <LiveMetrics endpoint="/api/nutrition" metrics={nutrition.metrics} />
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><h2>Módulos</h2><p>Cada área é atualizada sem expor dados no repositório.</p></div>
     </div>
     <div class="grid module-grid">
       {privateModules.map((module) => (
@@ -38,14 +51,14 @@ import { privateModules } from '../../config/modules';
   <section class="section grid panel-grid">
     <article class="panel">
       <h2>Tendências</h2>
-      <div class="chart-placeholder">A API privada fornecerá as séries históricas para os gráficos.</div>
+      <div class="chart-placeholder">As séries históricas serão renderizadas aqui pela API privada.</div>
     </article>
     <article class="panel">
       <h2>Atualização dos dados</h2>
       <div class="list">
-        <div class="list-row"><div>Webhook do Notion<small>Atualização orientada a eventos</small></div><span class="tag">Planejado</span></div>
-        <div class="list-row"><div>Cache privado<small>Resposta rápida no painel</small></div><span class="tag">Planejado</span></div>
-        <div class="list-row"><div>Sincronização completa<small>Reconciliação periódica</small></div><span class="tag">Planejado</span></div>
+        <div class="list-row"><div>Webhook do Notion<small>Invalida o cache quando algo muda</small></div><span class="tag">Automático</span></div>
+        <div class="list-row"><div>Cache privado<small>Resposta rápida para o painel</small></div><span class="tag">5 min</span></div>
+        <div class="list-row"><div>Reconciliação completa<small>Garante consistência mesmo sem webhook</small></div><span class="tag">1 hora</span></div>
       </div>
     </article>
   </section>
