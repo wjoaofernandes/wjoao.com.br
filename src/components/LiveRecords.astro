@@ -1,0 +1,76 @@
+---
+interface Props {
+  endpoint: string;
+  section: string;
+}
+const { endpoint, section } = Astro.props;
+---
+
+<div class="list" data-live-records data-endpoint={endpoint} data-section={section}>
+  <div class="list-row"><div>Carregando dados privados…<small>Aguardando API</small></div><span class="tag">Live</span></div>
+</div>
+
+<script>
+  const row = (title: string, subtitle: string, badge: string) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'list-row';
+    const copy = document.createElement('div');
+    copy.textContent = title;
+    const small = document.createElement('small');
+    small.textContent = subtitle;
+    copy.appendChild(small);
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.textContent = badge;
+    wrapper.append(copy, tag);
+    return wrapper;
+  };
+
+  const describe = (section: string, item: any) => {
+    if (section === 'tasks') {
+      return {
+        title: item.title || 'Tarefa sem título',
+        subtitle: [item.priority, item.due ? `Prazo ${item.due}` : null].filter(Boolean).join(' · ') || 'Sem prazo',
+        badge: item.status || 'Sem status'
+      };
+    }
+    if (section === 'nutrition') {
+      return {
+        title: item.record || item.meal || 'Registro nutricional',
+        subtitle: `${Math.round(Number(item.calories) || 0)} kcal · ${Math.round(Number(item.protein) || 0)} g proteína`,
+        badge: item.meal || 'Refeição'
+      };
+    }
+    return {
+      title: item.title || item.name || item.record || 'Registro',
+      subtitle: item.date || item.updatedAt || 'Dados privados',
+      badge: item.status || 'Ativo'
+    };
+  };
+
+  const hydrateRecords = async (container: HTMLElement) => {
+    const endpoint = container.dataset.endpoint;
+    const section = container.dataset.section || '';
+    if (!endpoint) return;
+    try {
+      const response = await fetch(endpoint, { credentials: 'same-origin', headers: { accept: 'application/json' } });
+      if (!response.ok) throw new Error(`API ${response.status}`);
+      const payload = await response.json();
+      const items = Array.isArray(payload.items) ? payload.items.slice(0, 12) : [];
+      container.replaceChildren();
+      if (!items.length) {
+        container.append(row(payload.message || 'Nenhum registro encontrado', payload.configured === false ? 'Fonte ainda não configurada' : 'Sem dados para exibir', 'Info'));
+        return;
+      }
+      items.forEach((item: any) => {
+        const data = describe(section, item);
+        container.append(row(data.title, data.subtitle, data.badge));
+      });
+    } catch (error) {
+      container.replaceChildren(row('API privada indisponível', 'Os dados continuam protegidos e serão carregados quando a integração estiver ativa.', 'Offline'));
+      console.warn('Life OS records unavailable', error);
+    }
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-live-records]').forEach((container) => void hydrateRecords(container));
+</script>
