@@ -1,0 +1,61 @@
+---
+import Shell from '../../layouts/Shell.astro';
+import KpiCard from '../../components/KpiCard.astro';
+import { privateModules, getModule } from '../../config/modules';
+
+export function getStaticPaths() {
+  return privateModules.map((module) => ({ params: { section: module.slug } }));
+}
+
+const section = Astro.params.section ?? '';
+const module = getModule(section);
+
+if (!module) {
+  return Astro.redirect('/app');
+}
+
+const notesBySection: Record<string, string[]> = {
+  tasks: ['Status e prioridades', 'Prazos e agenda planejada', 'Adiamentos e histórico de execução'],
+  finance: ['Fluxo de caixa', 'Patrimônio e contas', 'Investimentos e metas financeiras'],
+  health: ['Indicadores corporais', 'Evolução e hábitos', 'Recuperação e tendências'],
+  training: ['Sessões e volume', 'Progressão de carga', 'Recordes e aderência'],
+  nutrition: ['Calorias e macros', 'Refeições e alimentos', 'Padrões e aderência'],
+  goals: ['Metas ativas', 'Progresso por área', 'Marcos e conclusão']
+};
+---
+
+<Shell title={module.label} eyebrow="Painel privado" privateArea={true}>
+  <section class="hero">
+    <div class="eyebrow">{module.source}</div>
+    <h1>{module.label}</h1>
+    <p class="lead">{module.description}</p>
+    <div class="grid metrics">
+      {module.metrics.map((metric) => <KpiCard {...metric} />)}
+    </div>
+  </section>
+
+  <section class="section grid panel-grid">
+    <article class="panel">
+      <div class="section-head">
+        <div><h2>Evolução</h2><p>Série temporal carregada pela API privada.</p></div>
+        <span class="tag">30 dias</span>
+      </div>
+      <div class="chart-placeholder">
+        <div><strong>Dados protegidos</strong><br />O gráfico será renderizado somente após autenticação e consulta à API.</div>
+      </div>
+    </article>
+
+    <article class="panel">
+      <h2>O que este módulo vai acompanhar</h2>
+      <div class="list">
+        {(notesBySection[module.slug] ?? []).map((note, index) => (
+          <div class="list-row">
+            <div>{note}<small>Indicador {index + 1}</small></div>
+            <span class="tag">API</span>
+          </div>
+        ))}
+      </div>
+      <div class="callout">Fonte atual: {module.source}. Nenhum valor privado é persistido no bundle público.</div>
+    </article>
+  </section>
+</Shell>
