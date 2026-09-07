@@ -1,5 +1,7 @@
 # Regis
 
+**SPEC_VERSION:** `2026-09-07.1`
+
 **Status:** Criar nova skill.
 
 ## Prompt para o Criador de Skills
