@@ -1,5 +1,7 @@
 # Ecossistema Laura — Skills
 
+**SPEC_VERSION:** `2026-09-07.1`
+
 Este diretório documenta a arquitetura operacional das skills pessoais do WJoao Life OS.
 
 ## Arquitetura
