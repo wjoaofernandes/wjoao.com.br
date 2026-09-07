@@ -1,5 +1,7 @@
 # Contrato Operacional entre Skills
 
+**SPEC_VERSION:** `2026-09-07.1`
+
 Todas as skills do ecossistema Laura devem compartilhar informações de forma consistente.
 
 ## Campos conceituais
