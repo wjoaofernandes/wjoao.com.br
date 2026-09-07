@@ -1,5 +1,7 @@
 # Bruna
 
+**SPEC_VERSION:** `2026-09-07.1`
+
 **Status:** Atualizar skill existente.
 
 ## Prompt para o Criador de Skills
