@@ -6,14 +6,6 @@
   "observability": {
     "enabled": true
   },
-  "workers_dev": false,
-  "preview_urls": false,
-  "routes": [
-    {
-      "pattern": "wjoao.com.br/api/*",
-      "zone_name": "wjoao.com.br"
-    }
-  ],
   "triggers": {
     "crons": ["7 * * * *"]
   },
