@@ -1,0 +1,58 @@
+spec_version: 2026-09-08.1
+source_of_truth: github
+loader: docs/skills/LOADER.md
+skills:
+  laura:
+    name: Laura
+    domain: coordination
+    skill_file: docs/skills/laura/SKILL.md
+    legacy_module: docs/skills/laura.md
+    status: bootstrap
+  bruna:
+    name: Bruna
+    domain: nutrition
+    skill_file: docs/skills/bruna/SKILL.md
+    legacy_module: docs/skills/bruna.md
+    status: bootstrap
+  aline:
+    name: Aline
+    domain: training
+    skill_file: docs/skills/aline/SKILL.md
+    legacy_module: docs/skills/aline.md
+    status: bootstrap
+  rosana:
+    name: Rosana
+    domain: health
+    skill_file: docs/skills/rosana/SKILL.md
+    legacy_module: docs/skills/rosana.md
+    status: bootstrap
+  paulo:
+    name: Paulo
+    domain: style
+    skill_file: docs/skills/paulo/SKILL.md
+    legacy_module: docs/skills/paulo.md
+    status: bootstrap
+  juliana:
+    name: Juliana
+    domain: personal_finance
+    skill_file: docs/skills/juliana/SKILL.md
+    legacy_module: docs/skills/juliana.md
+    status: bootstrap
+  primo-rico:
+    name: Primo Rico
+    domain: cryptoassets
+    skill_file: docs/skills/primo-rico/SKILL.md
+    legacy_module: docs/skills/primo-rico.md
+    status: bootstrap
+  ana:
+    name: Ana
+    domain: languages_learning
+    skill_file: docs/skills/ana/SKILL.md
+    legacy_module: docs/skills/ana.md
+    status: bootstrap
+  regis:
+    name: Regis
+    domain: cybersecurity
+    skill_file: docs/skills/regis/SKILL.md
+    legacy_module: docs/skills/regis.md
+    status: bootstrap
