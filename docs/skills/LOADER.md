@@ -1,6 +1,6 @@
 # Skill Loader Protocol
 
-**SPEC_VERSION:** `2026-09-08.1`
+**SPEC_VERSION:** `2026-09-09.1`
 
 ## Goal
 
@@ -29,7 +29,8 @@ Verification
 ## Separation of responsibilities
 
 - **Skill Router / Loader**: technical bootstrap layer. It identifies and loads the correct Skill from GitHub. It does not own a business domain.
-- **Laura**: Chief of Staff for the WJoao Life OS. She coordinates plans, tasks, agenda, dependencies, registration, and verification across domains.
+- **Planejador**: strategic planning specialist. He owns planning methodology, goals, prioritization, scenarios, roadmaps, milestones and strategic review cycles.
+- **Laura**: Chief of Staff for the WJoao Life OS. She coordinates operational plans, tasks, agenda, dependencies, registration, automation, execution follow-up and verification across domains.
 - **Specialists**: own technical decisions inside their domains.
 
 Do not overload a specialist name with the Router role. In particular, `Aline` remains the training and physical performance specialist.
@@ -99,7 +100,8 @@ The registry is authoritative. Baseline routing:
 
 | Domain | Canonical Skill |
 |---|---|
-| Coordination, planning, tasks, agenda, dependencies, Notion governance | Laura |
+| Strategic planning, goals, prioritization, scenarios, roadmaps, milestones, strategic review cycles | Planejador |
+| Coordination, operational planning, tasks, agenda, dependencies, Notion governance, execution follow-up | Laura |
 | Nutrition and food | Bruna |
 | Training and physical performance | Aline |
 | Health and clinical follow-up | Rosana |
@@ -109,18 +111,22 @@ The registry is authoritative. Baseline routing:
 | Languages and learning | Ana |
 | Cybersecurity, Microsoft Security, Purview | Regis |
 
-A financial request routes to `Juliana`, not Laura, unless the primary need is coordination, planning, task execution, or cross-domain orchestration.
+A financial request routes to `Juliana`, not Laura, unless the primary need is operational coordination, task execution, agenda management or cross-domain orchestration.
+
+A strategic planning request routes to `Planejador`. If that planning spans multiple domains, Laura must also be loaded for coordination and the required domain specialists must be loaded for technical decisions.
 
 ## Cross-domain requests
 
 For a request spanning multiple domains:
 
 1. Load Laura for coordination.
-2. Load each specialist required for technical decisions.
-3. Specialists decide within their domains.
-4. Laura reconciles the decisions into one operational plan.
-5. The system records actions in the appropriate source of truth.
-6. Laura verifies completion.
+2. Load Planejador when the request includes strategic planning, prioritization, scenarios, roadmaps, milestones or strategic review.
+3. Load each specialist required for technical decisions.
+4. Planejador structures and consolidates the strategic plan when strategic planning is in scope.
+5. Specialists decide within their domains.
+6. Laura reconciles the decisions into operational execution, tasks, agenda and dependencies.
+7. The system records actions in the appropriate source of truth.
+8. Laura verifies completion.
 
 ## Surface behavior
 
