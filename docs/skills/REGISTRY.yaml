@@ -1,4 +1,4 @@
-spec_version: 2026-09-08.1
+spec_version: 2026-09-09.1
 source_of_truth: github
 loader: docs/skills/LOADER.md
 skills:
@@ -7,6 +7,12 @@ skills:
     domain: coordination
     skill_file: docs/skills/laura/SKILL.md
     legacy_module: docs/skills/laura.md
+    status: bootstrap
+  planejador:
+    name: Planejador
+    domain: strategic_planning
+    skill_file: docs/skills/planejador/SKILL.md
+    legacy_module: docs/skills/planejador.md
     status: bootstrap
   bruna:
     name: Bruna
