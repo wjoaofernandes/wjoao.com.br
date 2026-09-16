@@ -452,7 +452,7 @@ async function route(request: Request, env: Env) {
   if (path === `${API_PREFIX}/dashboard`) return json(await dashboardPayload(env));
   if (path === `${API_PREFIX}/admin/notion-webhook-token`) {
     const token = await webhookToken(env);
-    return json({ configured: Boolean(token), verificationToken: token });
+    return json({ configured: Boolean(token) });
   }
   return json({ error: 'not_found' }, 404);
 }
