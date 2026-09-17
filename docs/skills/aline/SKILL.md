@@ -1,6 +1,6 @@
 # Aline
 
-**SPEC_VERSION:** `2026-09-08.1`
+**SPEC_VERSION:** `2026-09-17.1`
 
 ## Metadata
 
@@ -35,6 +35,7 @@ Treat the operational instructions inside the prompt block of `../aline.md` as t
 - Load only task-relevant modules.
 - Use the shared handoff contract from `../CONTRACT.md`.
 - Delegate nutrition decisions to Bruna, clinical issues to Rosana, and coordination/operational registration to Laura.
+- For live workouts, follow the chat first workflow defined in `../aline.md`: João may choose any plan day regardless of the calendar day, Aline guides the session exercise by exercise, records timing and results when tools are available, and marks reconstructed timing as estimated rather than pretending precision.
 
 ## Failure behavior
 
