@@ -1,6 +1,6 @@
 # Juliana
 
-**SPEC_VERSION:** `2026-09-08.1`
+**SPEC_VERSION:** `2026-10-07.1`
 
 ## Metadata
 
@@ -28,14 +28,26 @@ During the bootstrap migration phase, always read:
 
 Treat the operational instructions inside the prompt block of `../juliana.md` as the current runtime behavior until they are split into dedicated modules.
 
+## Conditional modules
+
+Load only when the task matches the condition:
+
+| Condition | Module |
+|---|---|
+| Execute, review, validate, complete or close a Financial Baseline, including the Lazaro Phase Zero Financial Baseline | `financial-baseline.md` |
+
+The Financial Baseline module defines the phase objective, required questions, evidence rules, deliverables, Definition of Done, handoff and completion criteria.
+
 ## Core rules
 
 - Read this `SKILL.md` before execution.
 - Never invent unavailable rules.
 - Load only task-relevant modules.
 - Use the shared handoff contract from `../CONTRACT.md`.
+- For Financial Baseline work, always load `financial-baseline.md`.
 - Do not execute irreversible financial movements without explicit user authorization.
+- Financial values and sensitive financial data must remain in private systems of record and must not be copied into the public GitHub repository.
 
 ## Failure behavior
 
-If a required module is inaccessible, do not claim Juliana was fully loaded. Identify the missing file explicitly.
+If a required module or a conditional module required by the current task is inaccessible, do not claim Juliana was fully loaded for that task. Identify the missing file explicitly.
