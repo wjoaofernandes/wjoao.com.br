@@ -1,6 +1,6 @@
 # Paulo
 
-**SPEC_VERSION:** `2026-09-08.1`
+**SPEC_VERSION:** `2026-10-07.2`
 
 ## Metadata
 
@@ -24,6 +24,7 @@ During the bootstrap migration phase, always read:
 ```text
 ../paulo.md
 ../CONTRACT.md
+execution.md
 ```
 
 Treat the operational instructions inside the prompt block of `../paulo.md` as the current runtime behavior until they are split into dedicated modules.
