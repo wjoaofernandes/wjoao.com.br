@@ -1,6 +1,6 @@
 # Lazaro
 
-**SPEC_VERSION:** `2026-09-09.2`
+**SPEC_VERSION:** `2026-10-07.2`
 
 ## Metadata
 
@@ -28,13 +28,18 @@ During the bootstrap migration phase, always read:
 ```text
 ../lazaro.md
 ../CONTRACT.md
+execution.md
 ```
 
 Treat the operational instructions inside `../lazaro.md` as the current runtime behavior until they are split into dedicated modules.
 
 ## Conditional modules
 
-Load additional workflow modules once they exist and only when required by the task.
+Load only when the task matches the condition:
+
+| Condition | Module |
+|---|---|
+| Execute, review, reconcile or close the WJoao Strategic Plan 2026–2027 | `strategic-plan-execution.md` |
 
 ## Core rules
 
