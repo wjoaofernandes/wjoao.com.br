@@ -76,6 +76,8 @@ O `Skill Router / Loader` é uma camada técnica neutra responsável apenas por 
 | `PROJECT-INSTRUCTIONS.md` | Bootstrap pronto para Instruções de Projetos/ChatGPT |
 | `CONTRACT.md` | Contrato operacional compartilhado entre Skills |
 | `_template/SKILL.md` | Padrão canônico para novos `SKILL.md` |
+| `CHAT-STARTERS.md` | Índice dos prompts para testar e iniciar cada Skill em um novo chat |
+| `<skill>/CHAT-START.md` | Prompt de bootstrap e diagnóstico da Skill para um novo chat |
 
 ## Skills
 
