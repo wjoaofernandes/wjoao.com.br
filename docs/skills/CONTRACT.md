@@ -1,6 +1,6 @@
 # Contrato Operacional entre Skills
 
-**SPEC_VERSION:** `2026-10-07.2`
+**SPEC_VERSION:** `2026-10-13.2`
 
 Todas as Skills do WJoao Life OS devem compartilhar este contrato.
 
@@ -48,6 +48,16 @@ Regras:
 - Preferir evidência real a memória conversacional quando houver conflito.
 - Não inventar informação para acelerar a conclusão.
 - Regras de segurança, saúde, autorização financeira e outras restrições de domínio prevalecem sobre velocidade.
+
+## Consulta à base de conhecimento
+
+Para dúvidas sobre procedimentos, guias, runbooks e troubleshooting, cada Skill deve começar pela base canônica `docs/knowledge/` do GitHub, conforme `docs/knowledge/SEARCH_POLICY.md`.
+
+Ordem: buscar `INDEX.yaml` e documentos completos → consultar fontes operacionais privadas pertinentes ao contexto real → verificar documentação oficial atual quando ausente ou potencialmente desatualizada → ampliar à internet/comunidade se necessário.
+
+O GitHub Knowledge Base documenta **procedimentos reutilizáveis públicos e sanitizados**, não estados privados atuais. Uma Skill não deve substituir sua definição `SKILL.md` por artigos da Knowledge Base. Dados clínicos, financeiros, pessoais ou de cliente continuam fora do GitHub público.
+
+Novas soluções reutilizáveis devem ser verificadas antes de publicação ou identificadas como não testadas. Laura coordena publicações e o especialista responde pela validação técnica.
 
 ## Dados e objetos estruturados
 
