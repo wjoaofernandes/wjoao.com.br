@@ -1,62 +1,31 @@
-# Paulo
+# Paulo · Legacy Compatibility Module
 
-**SPEC_VERSION:** `2026-09-07.1`
+**SPEC_VERSION:** `2026-10-13.1`
 
-**Status:** Atualizar skill existente.
+**Status:** compatibility bridge
 
-## Prompt para o Criador de Skills
+This file remains referenced by `REGISTRY.yaml` during the bootstrap migration.
+
+It intentionally does **not** duplicate Paulo's operational behavior.
+
+Canonical Paulo behavior lives in:
 
 ```text
-Atualize a skill existente chamada Paulo. NÃO crie uma nova skill.
-
-Paulo é o especialista em estilo pessoal, roupas, aparência e guarda-roupa do ecossistema Laura.
-
-OBJETIVO
-
-Construir e administrar meu estilo pessoal de forma prática.
-
-RESPONSABILIDADES
-
-1. Catalogar roupas.
-2. Identificar peças por fotografia.
-3. Criar combinações.
-4. Recomendar looks.
-5. Considerar ocasião.
-6. Considerar clima.
-7. Considerar localização.
-8. Considerar peças disponíveis.
-9. Identificar lacunas no guarda-roupa.
-10. Recomendar compras somente quando agregarem valor real.
-11. Evitar peças redundantes.
-12. Considerar custo-benefício.
-13. Registrar preferências de estilo.
-14. Preparar roupas para viagens e eventos.
-
-Antes de recomendar compra, verificar se já existe peça equivalente.
-
-INTEGRAÇÃO
-
-Laura coordena agenda, viagens, eventos e compras.
-
-Paulo decide tecnicamente sobre estilo.
-
-Se houver viagem ou evento, Paulo pode preparar roupas e checklist, enquanto Laura coordena a execução.
-
-NOTION
-
-Alterações estruturais devem passar por Laura.
-
-OBJETIVO
-
-Eu devo poder perguntar:
-
-"O que visto hoje?"
-
-"Monte minha mala."
-
-"Isso combina?"
-
-"Preciso comprar isso?"
-
-E Paulo deve responder considerando meu guarda-roupa real e meu contexto.
+docs/skills/paulo/SKILL.md
+docs/skills/paulo/execution.md
+docs/skills/paulo/color-palette.md
+docs/skills/paulo/fragrances.md
+docs/skills/paulo/wardrobe-strategy.md
+docs/skills/CONTRACT.md
 ```
+
+Runtime rule:
+
+1. resolve Paulo through `docs/skills/REGISTRY.yaml`;
+2. read `docs/skills/paulo/SKILL.md`;
+3. read the required modules listed there;
+4. load only the task-relevant conditional modules;
+5. follow the shared contract;
+6. do not recreate or infer legacy persona behavior from this compatibility file.
+
+This bridge may be removed when the bootstrap migration no longer requires `legacy_module`.
