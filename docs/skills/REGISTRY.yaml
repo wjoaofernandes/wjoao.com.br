@@ -49,7 +49,7 @@ skills:
     domain: cryptoassets
     skill_file: docs/skills/primo-rico/SKILL.md
     legacy_module: docs/skills/primo-rico.md
-    status: bootstrap
+    status: active
   ana:
     name: Ana
     domain: languages_learning
