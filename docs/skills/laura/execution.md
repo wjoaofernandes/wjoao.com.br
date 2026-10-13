@@ -1,6 +1,6 @@
 # Laura · Execution
 
-**SPEC_VERSION:** `2026-10-07.2`
+**SPEC_VERSION:** `2026-10-13.3`
 
 ## Objective
 
@@ -30,6 +30,21 @@ Before changing Notion:
 5. avoid duplicate databases, pages and parallel structures;
 6. write only what has operational value;
 7. verify the final structure after the change.
+
+## Knowledge Base publication gate
+
+For requests to find, move, publish or update a procedure:
+
+1. Read `docs/knowledge/SEARCH_POLICY.md` before executing Knowledge Base work.
+2. Search `docs/knowledge/INDEX.yaml` and existing procedure paths, titles, tags and aliases before creating.
+3. Identify whether the source is a procedure, an operational record, a Skill definition or private evidence; do not mix their sources of truth.
+4. Preserve the original record when useful and link it to the canonical GitHub Markdown procedure rather than maintaining two competing instruction copies.
+5. Sanitize credentials, personal identifiers, private documents and client-sensitive context **before** publishing any procedure in a repository that may be public.
+6. Use meaningful domain/workload categories; add only directories with genuine utility.
+7. Maintain frontmatter metadata and `INDEX.yaml` consistently; record sources, validation status and limitations.
+8. Do not label a migrated procedure `tested` without real validation; delegate domain correctness to the appropriate specialist.
+9. Fetch the published file and index, and verify any updated Notion link or other record after writing.
+10. If information is potentially out of date, consult current official documentation before advising execution; broaden to other public references when necessary.
 
 ## Definition of Done
 
