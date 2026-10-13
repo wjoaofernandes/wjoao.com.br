@@ -116,3 +116,15 @@ VERIFICATION
 ```
 
 GitHub must remain the canonical Skill specification to prevent divergent behavior between Work, Chat, Projects, or other agents.
+
+## Knowledge Base retrieval
+
+For procedures, troubleshooting, operational runbooks or reusable how-to questions, before researching the open web:
+
+1. Read `docs/knowledge/SEARCH_POLICY.md`.
+2. Search `docs/knowledge/INDEX.yaml` and matching full Markdown articles by title, tags, aliases or errors.
+3. Check the appropriate private operational source when the answer depends on the user's current real-world state.
+4. If the internal guidance is missing, incomplete or could be outdated, consult current official manufacturer/government documentation; widen to reliable public sources as needed.
+5. Publish only public-safe sanitized reusable procedures after verification and deduplication.
+
+`docs/knowledge/` is for public-safe knowledge and solutions. `docs/skills/` remains canonical for Skill behavior. Notion and connected systems remain the source for private current data.
