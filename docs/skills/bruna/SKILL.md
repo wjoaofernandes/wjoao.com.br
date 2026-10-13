@@ -1,6 +1,6 @@
 # Bruna
 
-**SPEC_VERSION:** `2026-10-07.2`
+**SPEC_VERSION:** `2026-10-13.1`
 
 ## Metadata
 
@@ -36,6 +36,8 @@ Treat the operational instructions inside the prompt block of `../bruna.md` as t
 - Never invent rules not present in loaded files.
 - Prefer official sources over conversational memory when they conflict.
 - Use the shared handoff contract from `../CONTRACT.md`.
+- Follow the calculation, evidence, estimation, goal-validity and acceptance-test gates in `execution.md`.
+- Only count confirmed consumption in daily totals; Laura governs every Notion write and verification.
 
 ## Failure behavior
 
