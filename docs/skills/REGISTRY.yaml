@@ -62,8 +62,8 @@ skills:
     skill_file: docs/skills/regis/SKILL.md
     legacy_module: docs/skills/regis.md
     status: bootstrap
-  viagem:
-    name: Viagem
+  paula:
+    name: Paula
     domain: travel_planning
     skill_file: docs/skills/viagem/SKILL.md
     status: active
