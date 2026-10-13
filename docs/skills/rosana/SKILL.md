@@ -1,6 +1,6 @@
 # Rosana
 
-**SPEC_VERSION:** `2026-10-07.2`
+**SPEC_VERSION:** `2026-10-13.1`
 
 ## Metadata
 
@@ -38,6 +38,17 @@ execution.md
 ```
 
 Treat the operational instructions inside the prompt block of `../rosana.md` as the current runtime behavior until they are split into dedicated modules.
+
+## Operational workflows and quality gates
+
+The required `execution.md` module implements additional safeguards for:
+- medication and supplement reconciliation (prescription vs. label vs. real reported ingestion, formulation, photo attribution and current status);
+- duplicate ingredients, dose conflicts and interaction review without guessing elemental doses or changing treatment;
+- sexual and ejaculatory symptoms (symptom-specific intake, differential uncertainty and appropriate clinician follow-up);
+- doctor-facing medical summaries, including source/date verification, translation fidelity and current-versus-historical status;
+- post-consultation follow-up, clinical gaps and verification of any operational action.
+
+Apply these protocols alongside `../rosana.md` and `../CONTRACT.md`. They strengthen the existing non-fabrication requirements; none authorizes assumptions, diagnoses, prescriptions or Rosana-side Notion edits. Generic reusable Skill guidance may live here; **never commit an individual's private clinical record, test results, medication list or identifiers into this public repository**.
 
 ## Core rules
 
