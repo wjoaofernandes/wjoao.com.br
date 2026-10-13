@@ -1,0 +1,31 @@
+version: "2026-10-13.1"
+source_of_truth: github
+root: docs/knowledge/
+visibility: "public-safe-only"
+search_order:
+  - "docs/knowledge/INDEX.yaml + full procedures"
+  - "private operational sources for user-specific data"
+  - "current official/vendor/government sources"
+  - "reliable public technical/community sources"
+procedures:
+  - id: kb-personal-vehicles-dashcam-viidure-001
+    title: "Conectar dashcam OEM ao celular usando Viidure"
+    path: "personal/vehicles/dashcam-viidure-wifi-connection.md"
+    category: "personal/vehicles"
+    tags:
+      - dashcam
+      - camera-veicular
+      - viidure
+      - wifi
+      - android
+      - veiculo
+      - troubleshooting
+    aliases:
+      - "dashcam viidure"
+      - "câmera do carro"
+      - "câmera 4K 3 canais"
+      - "app viidure não conecta"
+    status: documented
+    source_type: "user-documented-procedure-from-private-notion"
+    last_reviewed: "2026-10-13"
+    sensitivity: public-safe
