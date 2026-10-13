@@ -1,6 +1,6 @@
 # Ecossistema Laura — Skills
 
-**SPEC_VERSION:** `2026-09-08.1`
+**SPEC_VERSION:** `2026-10-13.1`
 
 Este diretório é a fonte oficial das Skills pessoais do WJoao Life OS.
 
@@ -90,6 +90,7 @@ O `Skill Router / Loader` é uma camada técnica neutra responsável apenas por 
 | Primo Rico | Criptoativos | `primo-rico/SKILL.md` |
 | Ana | Idiomas e aprendizado | `ana/SKILL.md` |
 | Regis | Cybersecurity / Microsoft Security / Purview | `regis/SKILL.md` |
+| Viagem | Planejamento de viagens, logística, reservas, documentos e contingência | `viagem/SKILL.md` |
 
 ## Regra de carregamento
 
