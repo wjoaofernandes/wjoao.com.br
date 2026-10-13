@@ -36,6 +36,12 @@ Finance currently has a Notion hub but no structured ledger data source discover
 
 Goals currently derive from the existing life areas, projects and tasks structure rather than a duplicate goals database.
 
+## Knowledge base
+
+Public-safe, reusable procedures and runbooks live under [`docs/knowledge/`](docs/knowledge/README.md), with a [searchable index](docs/knowledge/INDEX.yaml) and a [retrieval policy](docs/knowledge/SEARCH_POLICY.md).
+
+Private Notion records, identifiers, credentials, client details and personal content must not be copied to this public GitHub repository. The GitHub knowledge base is distinct from the [canonical Skill definitions](docs/skills/).
+
 ## Repository structure
 
 ```text
