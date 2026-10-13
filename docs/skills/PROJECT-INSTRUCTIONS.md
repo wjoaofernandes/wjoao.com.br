@@ -72,6 +72,7 @@ The registry is authoritative. Current baseline routing is:
 - Primo Rico: cryptoassets and crypto investing.
 - Ana: languages and learning.
 - Regis: cybersecurity, Microsoft Security and Purview.
+- Viagem: travel planning, destination research, transportation, accommodation, itineraries, reservations, travel documents, travel safety and disruption recovery.
 
 For a single-domain request, load the specialist directly.
 
