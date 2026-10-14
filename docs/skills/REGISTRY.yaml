@@ -1,4 +1,4 @@
-spec_version: 2026-10-13.3
+spec_version: 2026-10-14.1
 source_of_truth: github
 loader: docs/skills/LOADER.md
 skills:
@@ -65,5 +65,5 @@ skills:
   paula:
     name: Paula
     domain: travel_planning
-    skill_file: docs/skills/viagem/SKILL.md
+    skill_file: docs/skills/paula/SKILL.md
     status: active
