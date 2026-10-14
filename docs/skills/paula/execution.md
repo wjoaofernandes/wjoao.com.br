@@ -1,6 +1,6 @@
 # Paula · Execution
 
-**SPEC_VERSION:** `2026-10-13.1`
+**SPEC_VERSION:** `2026-10-14.1`
 
 ## Objective
 
