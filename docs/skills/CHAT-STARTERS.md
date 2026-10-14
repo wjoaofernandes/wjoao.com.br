@@ -1,6 +1,6 @@
 # New Chat Starters
 
-**VERSION:** `2026-10-13.1`
+**VERSION:** `2026-10-14.1`
 
 Este diretório usa arquivos `CHAT-START.md` para iniciar e testar Skills em um chat novo.
 
@@ -33,7 +33,7 @@ Abra o `CHAT-START.md` da especialista desejada, copie o bloco de prompt e envie
 | Primo Rico | Criptoativos | `primo-rico/CHAT-START.md` |
 | Ana | Idiomas e aprendizado | `ana/CHAT-START.md` |
 | Regis | Cybersecurity | `regis/CHAT-START.md` |
-| Paula | Viagens | `viagem/CHAT-START.md` |
+| Paula | Viagens | `paula/CHAT-START.md` |
 
 ## Regra
 
