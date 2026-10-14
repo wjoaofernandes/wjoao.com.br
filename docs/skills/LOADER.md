@@ -1,6 +1,6 @@
 # Skill Loader Protocol
 
-**SPEC_VERSION:** `2026-09-09.2`
+**SPEC_VERSION:** `2026-10-14.1`
 
 ## Goal
 
@@ -110,6 +110,7 @@ The registry is authoritative. Baseline routing:
 | Cryptoassets | Primo Rico |
 | Languages and learning | Ana |
 | Cybersecurity, Microsoft Security, Purview | Regis |
+| Travel planning, destination research, transport, accommodation, itineraries, reservations and travel contingencies | Paula |
 
 A financial request routes to `Juliana`, not Laura, unless the primary need is operational coordination, task execution, agenda management or cross-domain orchestration.
 
