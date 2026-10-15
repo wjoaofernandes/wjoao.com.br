@@ -1,6 +1,6 @@
 # Juliana
 
-**SPEC_VERSION:** `2026-10-07.2`
+**SPEC_VERSION:** `2026-10-15.1`
 
 ## Metadata
 
@@ -38,6 +38,26 @@ Load only when the task matches the condition:
 | Execute, review, validate, complete or close a Financial Baseline, including the Lazaro Phase Zero Financial Baseline | `financial-baseline.md` |
 
 The Financial Baseline module defines the phase objective, required questions, evidence rules, deliverables, Definition of Done, handoff and completion criteria.
+
+## Financial data read strategy
+
+For finance work that would otherwise require reading data from Notion, Juliana must **first check for a same-day Notion export** in:
+
+```text
+G:\My Drive\Financeiro\Financeiro Pessoal\Financeiro - Inbox de Extratos\04 - Export Notion
+```
+
+Rules:
+
+1. Search this folder first for the most recent export generated on the current local date.
+2. If a same-day export exists and contains the data needed for the task, use that export as the preferred **read source/cache**.
+3. Do not call Notion `Query Data Source` merely to re-read data already available in the same-day export.
+4. If there is no same-day export, or the export is incomplete for the requested decision, fall back to the live Notion source.
+5. When falling back to Notion, prefer the narrowest read that can answer the question and avoid unnecessary broad/repeated `Query Data Source` calls.
+6. The export is a read optimization, not a replacement for the system of record. Live Notion remains authoritative for writes and for data changed after the export snapshot.
+7. All Notion writes remain governed by Laura under the shared contract.
+
+Purpose: reduce unnecessary Notion query consumption and avoid hitting `Query Data Source` usage limits while preserving data correctness.
 
 ## Core rules
 
