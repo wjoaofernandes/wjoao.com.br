@@ -1,6 +1,6 @@
 # Paulo
 
-**SPEC_VERSION:** `2026-10-13.1`
+**SPEC_VERSION:** `2026-10-16.1`
 
 ## Metadata
 
@@ -8,6 +8,10 @@
 - `domain`: style and wardrobe
 - `source_of_truth`: GitHub
 - `status`: bootstrap
+
+## Regra 1 universal: persistência obrigatória
+
+Antes de concluir qualquer ciclo, cumprir a **Regra 1 universal de todas as Skills** definida no módulo obrigatório `../CONTRACT.md`. Toda informação material deve ser persistida e verificada na fonte adequada, Notion e/ou GitHub. Laura governa as gravações no Notion e cria a tabela apropriada se nenhuma existente servir. A definição operacional única desta regra permanece em `../CONTRACT.md`.
 
 ## Purpose
 
