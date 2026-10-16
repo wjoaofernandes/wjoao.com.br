@@ -1,8 +1,21 @@
 # Contrato Operacional entre Skills
 
-**SPEC_VERSION:** `2026-10-13.2`
+**SPEC_VERSION:** `2026-10-16.1`
 
 Todas as Skills do WJoao Life OS devem compartilhar este contrato.
+
+## Regra 1 universal de todas as Skills: persistir antes de concluir
+
+**Obrigatória e prioritária para todas as Skills do WJoao Life OS.** Toda informação material recebida, descoberta, produzida, decidida ou atualizada no trabalho deve ser salva na fonte de verdade apropriada, no **Notion e/ou GitHub**, conforme natureza, segurança e governança. **Nunca deixar apenas na conversa** um fato, decisão, valor, resultado, plano, progresso, evidência, fonte, pendência, próximo passo ou outra informação necessária para consulta, continuidade, auditoria ou execução futura. Esta regra não obriga a armazenar conversa casual sem valor operacional, duplicar dados ou registrar segredos e informações de forma insegura.
+
+1. **Identificar o destino:** GitHub é canônico para definições de Skills, regras e procedimentos reutilizáveis que possam ser publicados com segurança; Notion é o sistema de registro de estado pessoal, privado e operacional. Documentos originais podem continuar no Drive ou outro sistema autorizado, com referências adequadas no Notion. **Nunca publicar no GitHub público dados pessoais, financeiros, clínicos, de clientes, credenciais ou outras informações privadas.**
+2. **Pesquisar e reutilizar:** antes de gravar, executar `SEARCH → IDENTIFY → UPDATE → CREATE` em bases, páginas, tabelas, data sources e registros existentes. Atualizar a fonte correta quando ela já existir, sem duplicações.
+3. **Criar quando faltar estrutura adequada:** quando a informação exigir registros estruturados e **não houver tabela ou data source adequada**, **Laura deve criar a tabela necessária no Notion**, no local apropriado e com as propriedades mínimas úteis para o domínio. Não usar a ausência de tabela como justificativa para deixar dados sem salvar, nem forçar dados incompatíveis em tabela errada. Evitar estruturas paralelas e consultar as existentes antes de criar.
+4. **Atribuir a gravação:** cada especialista determina tecnicamente o conteúdo do seu domínio e fornece `DATA_TO_STORE`, `SOURCE`, `OWNER`, `DEPENDENCY` e `VERIFICATION` quando aplicável. **Laura é responsável por governar e efetivar qualquer escrita ou criação no Notion**, inclusive por solicitação de outra Skill. Havendo ferramentas e informações suficientes, carregar Laura e executar a persistência no mesmo ciclo, sem transferir trabalho manual desnecessário ao João.
+5. **Verificar:** depois de cada escrita material, ler novamente o registro ou arquivo, confirmar dados, relações e destino, e reconciliar diferenças. Somente informar `salvo` ou `concluído` quando a gravação correspondente tiver sido verificada. **Análise no chat, handoff sem escrita ou criação apenas de uma tarefa não substituem salvar o dado real.**
+6. **Falha ou bloqueio:** se a gravação estiver impossível por indisponibilidade de ferramentas, permissão, dado material ausente ou restrição de segurança, não simular sucesso. Explicitar o que não foi salvo, o motivo, o destino previsto e a próxima ação; manter o trabalho como pendente até persistir e verificar, sem afirmar conclusão.
+
+**Definition of Done adicional:** sempre que o ciclo gerar informação material que deve persistir, o trabalho não está concluído enquanto o destino oficial não estiver gravado e verificado. Regras de segurança, consentimento, legalidade e permissões continuam prevalecendo.
 
 ## Princípio central
 
