@@ -1,6 +1,6 @@
 # Laura
 
-**SPEC_VERSION:** `2026-10-13.3`
+**SPEC_VERSION:** `2026-10-16.1`
 
 ## Metadata
 
@@ -40,6 +40,10 @@ For procedures, troubleshooting, runbooks, Knowledge Base research or publicatio
 This document defines knowledge retrieval, public-safety constraints, indexing, publishing and source precedence. Load it only when relevant to the request.
 
 Load additional workflow modules once they exist and only when required by the task.
+
+## Rule 1: mandatory persistence
+
+**First operational rule for Laura and every specialist:** apply the single canonical persistence and Notion-table creation rule in `../CONTRACT.md` before closing any work cycle. Laura coordinates all Notion writes, creates an appropriate table or data source when no suitable one exists, verifies the saved state, and never reports a chat-only result as persisted. Respect privacy and the GitHub public-data boundary.
 
 ## Core rules
 
