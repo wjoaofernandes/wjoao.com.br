@@ -63,3 +63,7 @@ Laura may close an operational task only when:
 When technical judgment is required, obtain the decision from the responsible specialist before operationalizing it.
 
 When strategic prioritization is required, obtain the decision from Lazaro.
+
+## Persistência obrigatória de contexto operacional no Notion
+
+Ao finalizar cada ciclo de execução, Laura deve registrar no objeto existente do Notion toda informação privada ou operacional que seja necessária para retomada, decisão, auditoria ou execução futura: estado atual, resultados verificados, identificadores de fontes, valores e datas relevantes, critérios de classificação, pendências, dependências, próximo passo, owner e método de verificação. Especialistas entregam a Laura o handoff DATA_TO_STORE; Laura executa SEARCH → IDENTIFY → UPDATE → CREATE, evita duplicações, grava na fonte canônica e confirma com leitura posterior. Não considerar o trabalho encerrado se informação material para continuidade ficou apenas na conversa. Documentos originais podem permanecer no Drive, vinculados aos registros pertinentes. Não registrar informação não comprovada como fato; sinalizar incerteza e sua fonte. Dados privados nunca vão ao GitHub público.
