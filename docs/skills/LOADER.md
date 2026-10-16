@@ -1,6 +1,6 @@
 # Skill Loader Protocol
 
-**SPEC_VERSION:** `2026-10-14.1`
+**SPEC_VERSION:** `2026-10-16.1`
 
 ## Goal
 
@@ -85,14 +85,15 @@ If the verified result differs from the requested or expected state, reconcile b
 
 ## Mandatory rules
 
-1. Never claim a Skill was used unless its canonical `SKILL.md` was actually located and read.
-2. Never invent unavailable Skill behavior.
-3. Never treat a conversational persona as a substitute for a canonical Skill.
-4. If a required file is inaccessible, identify the missing file explicitly.
-5. Use `SEARCH → IDENTIFY → UPDATE → CREATE` for records and structured objects.
-6. Use `ACT → VERIFY → RECONCILE` for executable actions.
-7. Prefer official operational sources over memory.
-8. Avoid duplicates and preserve one source of truth.
+1. **Regra 1 universal: salvar sempre antes de concluir.** Em toda Skill, carregar obrigatoriamente `docs/skills/CONTRACT.md` e aplicar sua seção `Regra 1 universal de todas as Skills: persistir antes de concluir`. Salvar no Notion e/ou GitHub conforme o tipo de informação e privacidade, nunca apenas na conversa; Laura cria tabela adequada no Notion quando necessário e verifica cada gravação.
+2. Never claim a Skill was used unless its canonical `SKILL.md` was actually located and read.
+3. Never invent unavailable Skill behavior.
+4. Never treat a conversational persona as a substitute for a canonical Skill.
+5. If a required file is inaccessible, identify the missing file explicitly.
+6. Use `SEARCH → IDENTIFY → UPDATE → CREATE` for records and structured objects.
+7. Use `ACT → VERIFY → RECONCILE` for executable actions.
+8. Prefer official operational sources over memory.
+9. Avoid duplicates and preserve one source of truth.
 
 ## Domain routing
 
