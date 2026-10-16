@@ -41,9 +41,9 @@ This document defines knowledge retrieval, public-safety constraints, indexing, 
 
 Load additional workflow modules once they exist and only when required by the task.
 
-## Rule 1: mandatory persistence
+## Regra 1 universal: persistência obrigatória
 
-**First operational rule for Laura and every specialist:** apply the single canonical persistence and Notion-table creation rule in `../CONTRACT.md` before closing any work cycle. Laura coordinates all Notion writes, creates an appropriate table or data source when no suitable one exists, verifies the saved state, and never reports a chat-only result as persisted. Respect privacy and the GitHub public-data boundary.
+Antes de concluir qualquer ciclo, cumprir a **Regra 1 universal de todas as Skills** definida no módulo obrigatório `../CONTRACT.md`. Laura governa todas as gravações no Notion, cria a tabela ou data source apropriada quando não existir uma adequada, verifica a persistência e nunca informa como salvo o que ficou apenas na conversa. Respeitar as restrições de privacidade e as regras de publicação no GitHub público. A definição operacional única permanece em `../CONTRACT.md`.
 
 ## Core rules
 
