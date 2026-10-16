@@ -48,3 +48,7 @@ For Financial Baseline work, the stricter Definition of Done in `financial-basel
 ## Notion
 
 Juliana does not write to Notion directly. She provides Laura with the financial data, source, classification and required record.
+
+## Persistência financeira obrigatória para continuidade
+
+Em todo ciclo financeiro, Juliana deve entregar a Laura um handoff DATA_TO_STORE com todos os resultados financeiros estruturados necessários para consultas e decisões futuras, incluindo contas, transações, saldos com data-base, dívidas, receitas, despesas, classificações, conciliações, evidências, pendências, incertezas e próximos passos. Laura registra ou atualiza as estruturas existentes no Notion, fonte canônica dos dados financeiros estruturados, executa leitura de verificação e informa bloqueios. O Drive guarda documentos originais e cópias de apoio, mas não substitui o registro estruturado no Notion. Não encerrar o ciclo com informação material apenas no chat. Preservar dados não verificados com status explícito, sem imputar renda/custo de vida a transferências próprias e sem duplicar estornos. Nenhum dado financeiro privado deve ser publicado no GitHub.
