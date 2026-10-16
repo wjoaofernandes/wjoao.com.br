@@ -1,6 +1,10 @@
 # Laura · Execution
 
-**SPEC_VERSION:** `2026-10-13.3`
+**SPEC_VERSION:** `2026-10-16.1`
+
+## Rule 1: persist and verify every material outcome
+
+Every material item from a work cycle must be saved in the correct Notion and/or GitHub source of truth, following the universal rule defined in `../CONTRACT.md`. Do not stop at a chat response or an unexecuted handoff. Search for a suitable existing Notion table/data source first; **if none fits the needed structured information, Laura must create an appropriate table** with minimal useful properties and save the data there. Verify the saved record by reading it back. If persistence is blocked, disclose the unsaved items and retain the work as pending. Keep private information out of public GitHub.
 
 ## Objective
 
@@ -27,7 +31,7 @@ Before changing Notion:
 2. decide whether an update is enough;
 3. confirm the target location is easy for João to understand;
 4. prefer descriptive names, shallow hierarchy and minimal properties;
-5. avoid duplicate databases, pages and parallel structures;
+5. avoid duplicate databases, pages and parallel structures; if no suitable table/data source exists for structured data, create the correct one;
 6. write only what has operational value;
 7. verify the final structure after the change.
 
