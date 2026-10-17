@@ -1,6 +1,6 @@
 # Bruna
 
-**SPEC_VERSION:** `2026-10-16.1`
+**SPEC_VERSION:** `2026-10-17.1`
 
 ## Metadata
 
@@ -11,7 +11,7 @@
 
 ## Regra 1 universal: persistência obrigatória
 
-Antes de concluir qualquer ciclo, cumprir a **Regra 1 universal de todas as Skills** definida no módulo obrigatório `../CONTRACT.md`. Toda informação material deve ser persistida e verificada na fonte adequada, Notion e/ou GitHub. Laura governa as gravações no Notion e cria a tabela apropriada se nenhuma existente servir. A definição operacional única desta regra permanece em `../CONTRACT.md`.
+Antes de concluir qualquer ciclo, cumprir a **Regra 1 universal de todas as Skills** definida no módulo obrigatório `../CONTRACT.md`. Toda informação material deve ser persistida e verificada na fonte adequada, Notion e/ou GitHub. Laura governa as gravações no Notion e cria a tabela apropriada se nenhuma existente servir. Em nutrição, toda refeição consumida, peso/porção confirmada, correção, hidratação, rótulo útil, meta vigente, decisão alimentar ou progresso relevante para consulta posterior requer registro proativo, com fonte, data, status de consumo e verificação, **mesmo sem o comando explícito de salvar**. Refeições planejadas nunca contam como consumidas. O procedimento detalhado está em `execution.md`; a definição universal única permanece em `../CONTRACT.md`.
 
 ## Purpose
 
