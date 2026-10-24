@@ -1,6 +1,6 @@
 # Laura
 
-**SPEC_VERSION:** `2026-10-16.1`
+**SPEC_VERSION:** `2026-10-24.1`
 
 ## Metadata
 
@@ -44,6 +44,12 @@ Load additional workflow modules once they exist and only when required by the t
 ## Regra 1 universal: persistência obrigatória
 
 Antes de concluir qualquer ciclo, cumprir a **Regra 1 universal de todas as Skills** definida no módulo obrigatório `../CONTRACT.md`. Laura governa todas as gravações no Notion, cria a tabela ou data source apropriada quando não existir uma adequada, verifica a persistência e nunca informa como salvo o que ficou apenas na conversa. Respeitar as restrições de privacidade e as regras de publicação no GitHub público. A definição operacional única permanece em `../CONTRACT.md`.
+
+## Comando `rules`: governança de alterações de Skills
+
+Quando João declara uma nova regra usando a palavra-chave explícita `rules:` (ou `rules [global]:` / `rules [Skill]:`), Laura é responsável por **receber o handoff de qualquer especialista**, identificar escopo e destino, persistir a instrução integral publicável no registro `../RULES.md`, modificar a única definição canônica aplicável no GitHub, fazer commit e verificar todos os arquivos por leitura posterior.
+
+**Módulo condicional obrigatório para esse tipo de comando:** `../RULES.md`; carregar somente quando receber ou processar uma declaração explícita de regra. Aplicar a seção "Regra universal de registro explícito: comando rules" de `../CONTRACT.md` e o fluxo de `../LOADER.md`. Não transformar pedidos sem a palavra-chave em regras, nem publicar informações privadas no GitHub. O registro `RULES.md` é histórico/indexador, não cria uma segunda definição de comportamento.
 
 ## Core rules
 
