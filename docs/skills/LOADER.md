@@ -1,6 +1,6 @@
 # Skill Loader Protocol
 
-**SPEC_VERSION:** `2026-10-16.1`
+**SPEC_VERSION:** `2026-10-24.1`
 
 ## Goal
 
@@ -94,6 +94,18 @@ If the verified result differs from the requested or expected state, reconcile b
 7. Use `ACT → VERIFY → RECONCILE` for executable actions.
 8. Prefer official operational sources over memory.
 9. Avoid duplicates and preserve one source of truth.
+
+## Rules command routing
+
+The explicit `rules:` command (case-insensitive, also `rules [global]:` or `rules [Skill]:`) is a **governance request**. It means the owner has intentionally declared **"agora é uma regra"**. Handle this **before ordinary domain routing**:
+
+1. Detect the command as an intentional instruction from João, **not** a quotation, code sample, mention of the word `rules`, or casual discussion. Do not silently convert ordinary requests into permanent Skill changes.
+2. Always load **Laura** through this registry (including her required modules), even when a domain specialist received the command. The domain specialist supplies the technical/scope handoff as needed but does **not** independently edit the canonical rules.
+3. Laura reads `docs/skills/RULES.md`, the shared `CONTRACT.md`, registry and target Skill/module. Search for an existing equivalent rule; apply the rule classification, scope, privacy gate, full-text persistence and verification procedure specified by `CONTRACT.md` and `RULES.md`.
+4. Persist the normative behavior in the correct GitHub canonical file, with the publishable original complete instruction indexed in `RULES.md`. If the text contains private data, save the unsanitized instruction only in authorized private Notion and publish a sanitized rule. Return the rule ID, URLs, status and readback verification.
+5. If tools or permissions prevent completion, disclose it; do not say it was registered.
+
+The general Rule 1 requiring persistence of operational information remains in force **even without** the `rules:` command. This new trigger governs changes to **Skill instructions**, not ordinary data recording.
 
 ## Domain routing
 
