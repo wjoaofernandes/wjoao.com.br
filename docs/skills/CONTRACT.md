@@ -1,6 +1,6 @@
 # Contrato Operacional entre Skills
 
-**SPEC_VERSION:** `2026-10-16.1`
+**SPEC_VERSION:** `2026-10-24.1`
 
 Todas as Skills do WJoao Life OS devem compartilhar este contrato.
 
@@ -16,6 +16,21 @@ Todas as Skills do WJoao Life OS devem compartilhar este contrato.
 6. **Falha ou bloqueio:** se a gravação estiver impossível por indisponibilidade de ferramentas, permissão, dado material ausente ou restrição de segurança, não simular sucesso. Explicitar o que não foi salvo, o motivo, o destino previsto e a próxima ação; manter o trabalho como pendente até persistir e verificar, sem afirmar conclusão.
 
 **Definition of Done adicional:** sempre que o ciclo gerar informação material que deve persistir, o trabalho não está concluído enquanto o destino oficial não estiver gravado e verificado. Regras de segurança, consentimento, legalidade e permissões continuam prevalecendo.
+
+## Regra universal de registro explícito: comando `rules`
+
+**Obrigatória para todas as Skills.** Quando João **declarar expressamente** uma nova regra com a palavra-chave `rules` junto da instrução, a Skill destinatária deve **acionar Laura**, responsável pela classificação, gravação canônica no GitHub e verificação. Esta exigência se aplica também quando João envia o comando diretamente a Laura ou a Lázaro.
+
+- **Sintaxe oficial:** `rules: <instrução completa>`, `rules [global]: <instrução completa>` ou `rules [nome da Skill]: <instrução completa>`. A palavra-chave ignora maiúsculas/minúsculas e o seu uso como comando já significa **"agora é uma regra"**.
+- **Gatilho intencional obrigatório:** a simples expressão "isso deveria ser uma regra", menções avulsas a "regra"/`rules`, códigos, citações ou mensagens normais **não** alteram automaticamente as Skills. Sem comando explícito, tratar o pedido normalmente; não promover sugestões ou conversas a normas permanentes.
+- **Handoff:** toda Skill prepara `DECISION`, `ACTION`, `DATA_TO_STORE`, `DEPENDENCY`, `DEADLINE`, `OWNER`, `SOURCE` e `VERIFICATION` quando relevantes, entregando a Laura **a instrução inteira**, seu escopo e origem. Laura executa no mesmo atendimento sempre que houver ferramentas e permissão suficientes.
+- **Escolha da fonte oficial:** regras de todas as Skills pertencem a este `CONTRACT.md` (e ao `LOADER.md` se alterarem o carregamento); regras de um domínio pertencem à definição da Skill ou módulo obrigatório indicado em `REGISTRY.yaml`. Regras que abrangem algumas Skills devem ter uma única fonte normativa apropriada com referências, não cópias divergentes.
+- **Livro de regras:** antes de alterar, Laura lê o [`RULES.md`](RULES.md), consulta a regra anterior e realiza `SEARCH → IDENTIFY → UPDATE → CREATE`. O `RULES.md` conserva a **instrução original integral publicável**, ID, data, escopo, estado e link à única definição executável. Novas regras podem alterar comportamento existente, mas não devem duplicar sua redação normativa em várias fontes.
+- **Privacidade:** nunca fazer commit de informações pessoais, clínicas, financeiras, de clientes, senhas ou segredos em repositório público. Quando o texto integral não for publicável, salvá-lo em área privada do Notion por Laura e registrar no GitHub somente a regra reutilizável sanitizada e a referência apropriada. Regras de segurança, hierarquia superior e permissões prevalecem.
+- **Persistir e verificar:** depois da atualização GitHub, reler todos os arquivos alterados, conferir vinculações e versão, reconciliar conflitos e informar o resultado. **Sem commit e leitura posterior, não anunciar que a regra está salva.** Se bloquear, informar exatamente o que falta.
+- **Comandos de manutenção:** `rules: altere a regra RULE-xxx ...` ou `rules: revogue a regra RULE-xxx ...`, identificando e registrando as modificações no histórico de Git e no índice, sem apagar proveniência.
+
+A nova regra de governança **não elimina a Regra 1 de persistência operacional**: dados de execução continuam indo ao Notion e/ou GitHub apropriado mesmo sem `rules`. O comando `rules` é exigido **somente para mudanças no comportamento canônico das Skills**.
 
 ## Princípio central
 
