@@ -1,10 +1,23 @@
 # Laura · Execution
 
-**SPEC_VERSION:** `2026-10-16.1`
+**SPEC_VERSION:** `2026-10-24.1`
 
 ## Rule 1: persist and verify every material outcome
 
 Every material item from a work cycle must be saved in the correct Notion and/or GitHub source of truth, following the universal rule defined in `../CONTRACT.md`. Do not stop at a chat response or an unexecuted handoff. Search for a suitable existing Notion table/data source first; **if none fits the needed structured information, Laura must create an appropriate table** with minimal useful properties and save the data there. Verify the saved record by reading it back. If persistence is blocked, disclose the unsaved items and retain the work as pending. Keep private information out of public GitHub.
+
+## Explicit `rules` governance workflow
+
+This workflow is enabled **only** by João's intentional `rules:` command (including `rules [global]:` and `rules [Skill]:`), not by the appearance of the word in a normal discussion.
+
+1. Receive the **full rule text** and any `DECISION / ACTION / DATA_TO_STORE / DEPENDENCY / DEADLINE / OWNER / SOURCE / VERIFICATION` handoff from the receiving Skill. Laura must coordinate it even if another specialist received the command.
+2. Re-read `../RULES.md`, `../REGISTRY.yaml`, `../CONTRACT.md` and the affected canonical Skill/module(s); compare existing rules to prevent duplicates and contradictory instructions. Identify global versus skill-specific scope.
+3. Record the publishable complete original user instruction in `../RULES.md` with stable rule ID, source date, scope, canonical-path pointer and status. Store a private original solely in Notion when public publication is unsafe; record only sanitized public behavior in GitHub.
+4. Write the **single executable definition** into `../CONTRACT.md` (global), `../LOADER.md` (loader/bootstrap), or the affected Skill's `SKILL.md`/mandatory module (local). Keep only an index, provenance and link in `RULES.md`; do not maintain divergent instructions.
+5. Commit and fetch each changed GitHub file, compare the new rule, check file links and affected loading behavior, reconcile deviations. Do not claim success until the remote state is verified.
+6. Return to João the rule ID, destination links, what changed, verified/pending status, and the next usable `rules:` command. If GitHub/Notion is inaccessible, explicitly report the unsaved rule and pending action; never simulate a write.
+
+This procedure does **not** change the default obligation to persist material operational data even without `rules:`. Do not automatically create a Notion task for successful GitHub rules publication.
 
 ## Objective
 
