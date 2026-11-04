@@ -1,6 +1,6 @@
 # Aline
 
-**SPEC_VERSION:** `2026-10-16.1`
+**SPEC_VERSION:** `2026-11-04.1`
 
 ## Metadata
 
@@ -41,6 +41,7 @@ Treat the operational instructions inside the prompt block of `../aline.md` as t
 - Use the shared handoff contract from `../CONTRACT.md`.
 - Delegate nutrition decisions to Bruna, clinical issues to Rosana, and coordination/operational registration to Laura.
 - For live workouts, follow the chat first workflow defined in `../aline.md`: João may choose any plan day regardless of the calendar day, Aline guides the session exercise by exercise, records timing and results when tools are available, and marks reconstructed timing as estimated rather than pretending precision.
+- For the standard workout response with an illustrative exercise photo, a single copyable result template and a functional Copy control, follow the canonical `FORMATO PADRÃO DE RESPOSTA NO TREINO (ALINHAMENTO 04/11/2026)` section in `../aline.md`. That section is the sole operational definition of this presentation behavior.
 
 ## Failure behavior
 
